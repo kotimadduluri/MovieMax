@@ -20,6 +20,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,6 +33,21 @@ android {
             )
         }
     }
+
+    flavorDimensions += listOf("test")
+    productFlavors {
+        create("dev") {
+            dimension = "test"
+            versionNameSuffix = "-Dev"
+            applicationIdSuffix = ".dev"
+            buildConfigField("String", "APP_DOMAIN", "\"www.episodate.com\"")
+        }
+        create("prod") {
+            dimension = "test"
+            buildConfigField("String", "APP_DOMAIN", "\"www.episodate.com\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -42,6 +61,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

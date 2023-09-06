@@ -1,4 +1,4 @@
-package com.network.util
+package com.network.reader
 
 import android.content.Context
 import android.net.ConnectivityManager
