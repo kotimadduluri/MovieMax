@@ -1,4 +1,4 @@
-package com.network.util
+package com.network.reader
 
 fun interface NetworkReader {
     fun isInternetAvailable() : Boolean

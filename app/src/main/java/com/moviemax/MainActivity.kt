@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.moviemax.ui.theme.MovieMaxTheme
-import com.network.util.NetworkReader
+import com.network.reader.NetworkReader
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
