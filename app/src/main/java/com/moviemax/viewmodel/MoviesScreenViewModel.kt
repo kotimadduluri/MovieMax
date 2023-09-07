@@ -6,14 +6,17 @@ import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.getMovies
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
 import com.moviemax.view.movie.UiState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class MoviesScreenViewModel(
     private val moviesUseCase: GetMoviesUseCase,
 ) : BaseViewModel<UiState>(UiState.None) {
 
+    private val currentPage = MutableStateFlow(1)
+
     init {
-        getMovies()  //fetch first page by default
+        getMovies(currentPage.value)
     }
 
     fun getMovies(page: Int = 1) {

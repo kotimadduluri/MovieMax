@@ -7,13 +7,13 @@ import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.data.remote.model.TvShow
 
 // mapper to map with ui objects from remote source
-fun MoviesResponse.getMovies(): List<Movie> {
+internal fun MoviesResponse.getMovies(): List<Movie> {
     return tvShows?.map { show ->
         show.toMovies()
     } ?: listOf()
 }
 
-fun TvShow.toMovies(): Movie {
+internal fun TvShow.toMovies(): Movie {
     return Movie(
         country = country,
         description = description,
@@ -34,14 +34,13 @@ fun TvShow.toMovies(): Movie {
     )
 }
 
-
-fun List<Episode>.toEpisodes(): List<MovieEpisode> {
+internal fun List<Episode>.toEpisodes(): List<MovieEpisode> {
     return map {
         it.toEpisode()
     }
 }
 
-fun Episode.toEpisode(): MovieEpisode {
+internal fun Episode.toEpisode(): MovieEpisode {
     return MovieEpisode(
         airDate = airDate,
         episode = episode,

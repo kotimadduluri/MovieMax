@@ -15,7 +15,7 @@ fun SimpleButton(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
-    onButtClicked: () -> Unit
+    onButtClicked: () -> Unit = {}
 ) {
     Button(
         onClick = onButtClicked,
@@ -32,5 +32,5 @@ fun SimpleButton(
 @Composable
 @Preview
 fun SimpleButtonPreview() {
-    SimpleButton(text = "SimpleButton") {}
+    SimpleButton(text = "SimpleButton")
 }

@@ -20,7 +20,7 @@ fun ButtonWithProgressBar(
     modifier: Modifier = Modifier.fillMaxWidth(),
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
-    onButtClicked: () -> Unit
+    onButtClicked: () -> Unit = {}
 ) {
     Button(
         onClick = {
@@ -49,7 +49,5 @@ fun ButtonWithProgressBarPreview() {
     ButtonWithProgressBar(
         text = "Button",
         isLoading = false,
-        onButtClicked = {
-        }
     )
 }

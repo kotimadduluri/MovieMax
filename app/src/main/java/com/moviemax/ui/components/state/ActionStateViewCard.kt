@@ -27,7 +27,7 @@ fun ActionStateViewCard(
     isActionRequired: Boolean = false,
     isActionIcon: Int = R.drawable.ic_refresh,
     modifier: Modifier = Modifier.padding(8.dp),
-    block: () -> Unit
+    block: () -> Unit = {}
 ) {
     CardView(
         modifier = modifier
