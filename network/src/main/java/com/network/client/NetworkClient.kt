@@ -1,6 +1,8 @@
 package com.network.client
 
 import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,6 +13,7 @@ class NetworkClient {
     fun <T> buildApi(service: Class<T>): T = Retrofit.Builder()
         .baseUrl(getUrl())
         .addConverterFactory(GsonConverterFactory.create())
+        .client(getClient())
         .build().create(service)
 
     private fun getUrl() = HttpUrl.Builder().apply {
@@ -20,6 +23,18 @@ class NetworkClient {
             port(configuration.port)
         }
     }.build()
+
+
+
+    private fun getClient(): OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
+        if(configuration.logEnabled){ //logs work for debug builds
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+            httpClient.addInterceptor(interceptor)
+        }
+        return httpClient.build()
+    }
 }
 
 enum class NetworkClientType {

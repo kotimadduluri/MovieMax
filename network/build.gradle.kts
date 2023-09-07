@@ -55,6 +55,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofit")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit")
     implementation("com.squareup.retrofit2:retrofit-mock:$retrofit")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
