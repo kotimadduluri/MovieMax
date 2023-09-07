@@ -6,19 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.moviemax.view.movie.list.MoviesScreen
+import com.moviemax.viewmodel.MoviesScreenViewModel
 import com.moviemax.ui.theme.MovieMaxTheme
-import com.network.reader.NetworkReader
-import org.koin.android.ext.android.inject
+import com.moviemax.view.movie.Destination
+import com.moviemax.view.movie.list.MoviesScreenIntent
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val networkReader : NetworkReader by inject()
-
         super.onCreate(savedInstanceState)
         setContent {
             MovieMaxTheme {
@@ -27,25 +27,26 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Network connected :: ${if(networkReader.isInternetAvailable()) "Online" else "offline"}")
+                    val navControl = rememberNavController()
+                    NavHost(navController = navControl, startDestination = Destination.List.route) {
+                        composable(Destination.List.route) {
+                            val viewModel: MoviesScreenViewModel = getViewModel()
+                            val state = viewModel.uiState()
+                            MoviesScreen(state) { intent ->
+                                when (intent) {
+                                    is MoviesScreenIntent.VIEW_DETAILS -> {
+                                        //todo
+                                    }
+
+                                    is MoviesScreenIntent.REFRESH -> {
+                                        viewModel.getMovies()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MovieMaxTheme {
-        Greeting("Android")
     }
 }
