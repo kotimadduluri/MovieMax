@@ -23,15 +23,15 @@ import com.moviemax.ui.components.button.SimpleButton
 
 @Composable
 fun ActionStateView(
-    isActionRequired:Boolean = false,
-    action:ActionState,
-    modifier: Modifier = Modifier,
-    block:() -> Unit
-){
+    isActionRequired: Boolean = false,
+    action: ActionState,
+    modifier: Modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp),
+    block: () -> Unit = {}
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -46,12 +46,12 @@ fun ActionStateView(
             text = action.message,
             style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onError),
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.error,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.size(10.dp))
-        if(isActionRequired){
+        if (isActionRequired) {
             SimpleButton(action.title) {
                 block()
             }
@@ -61,11 +61,11 @@ fun ActionStateView(
 
 @Composable
 @Preview
-fun ActionStatePreview(){
+fun ActionStatePreview() {
     ActionStateView(
         action = ActionState.ERROR(),
         isActionRequired = true
-    ){
+    ) {
         //
     }
 }

@@ -9,9 +9,7 @@ import org.koin.core.component.inject
 //use-case to get movie details by respective id
 class GetMovieDetailsUseCase : KoinComponent {
     private val repository: MovieRepository by inject()
-    suspend operator fun invoke(
-        movieId: Int
-    ): Resource<MovieDetailsResponse> {
+    suspend operator fun invoke(movieId: Int): Resource<MovieDetailsResponse> {
         return repository.getMoviesDetails(movieId)
     }
 }
