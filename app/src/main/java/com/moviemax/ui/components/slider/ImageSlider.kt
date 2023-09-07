@@ -41,7 +41,7 @@ fun ImageSlider(images: List<String>) {
                     modifier = Modifier
                         .width(imageWidth)
                         .height(imageHeight)
-                        .padding(16.dp)
+                        .padding(end = 16.dp)
                 ) {
                     AsyncImage(
                         model = imageUrl,

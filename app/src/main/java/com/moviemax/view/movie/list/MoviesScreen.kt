@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -48,12 +49,8 @@ fun MoviesScreen(
 
                 is UiState.Success<*> -> {
                     val state = uiState.value as UiState.Success<List<Movie>>
-                    VerticalList(
-                        data = state.data
-                    ) { movie ->
-                        MovieCard(movie = movie) {
-                            event(MoviesScreenIntent.VIEW_DETAILS(it))
-                        }
+                    MoviesList(state.data) { intent ->
+                        event(intent)
                     }
                 }
 
@@ -70,6 +67,26 @@ fun MoviesScreen(
                     //todo for future development purpose
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+fun MoviesList(
+    data: List<Movie>,
+    event: (intent: MoviesScreenIntent) -> Unit
+) {
+
+    val dataElements = remember {
+        data
+    }
+
+    VerticalList(
+        data = dataElements
+    ) { movie ->
+        MovieCard(movie = movie) {
+            event(MoviesScreenIntent.VIEW_DETAILS(it))
         }
     }
 }

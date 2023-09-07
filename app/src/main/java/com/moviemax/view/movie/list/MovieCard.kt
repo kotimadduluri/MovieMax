@@ -69,7 +69,7 @@ fun MovieCard(
                     Spacer(modifier = Modifier.height(lineSpace))
                     Text(
                         text = movie.name,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,

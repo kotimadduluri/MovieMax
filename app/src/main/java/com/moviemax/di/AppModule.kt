@@ -16,7 +16,9 @@ import org.koin.dsl.module
 val AppModule = module {
     single {
         DomainConfiguration {
+            scheme = "https"
             host = BuildConfig.APP_DOMAIN
+            logEnabled = BuildConfig.DEBUG
         }
     }
 

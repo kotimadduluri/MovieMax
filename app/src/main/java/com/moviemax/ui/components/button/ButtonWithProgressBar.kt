@@ -39,7 +39,11 @@ fun ButtonWithProgressBar(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp),
             )
-        } else TextView(text = text)
+        } else TextView(
+            text = text,
+            fontColor = contentColor,
+            textStyle = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
 
