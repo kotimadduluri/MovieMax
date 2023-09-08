@@ -2,22 +2,28 @@ package com.moviemax.model.movie.repository
 
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.MovieApi
-import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
-import com.moviemax.model.movie.data.remote.model.MoviesResponse
+import com.network.reader.NetworkReader
 
-class MovieRepositoryImp(private val movieApi: MovieApi) : MovieRepository {
-    override suspend fun getMovies(page: Int): Resource<MoviesResponse> {
+class MovieRepositoryImp(
+    private val movieApi: MovieApi,
+    private val networkReader: NetworkReader
+) : MovieRepository {
+    override suspend fun getMovies(page: Int): Resource {
         return try {
-            val response = movieApi.getMovies(page)
-            Resource.Success(response)
+            if (networkReader.isInternetAvailable()) {
+                val response = movieApi.getMovies(page)
+                Resource.Success(response)
+            } else Resource.Error(message = "Network broken")
         } catch (e: Exception) {
             Resource.Error(message = e.localizedMessage)
         }
     }
 
-    override suspend fun getMoviesDetails(movieId: Int): Resource<MovieDetailsResponse> {
+    override suspend fun getMoviesDetails(movieId: Int): Resource {
         return try {
-            Resource.Success(movieApi.getMovieDetails(movieId))
+            if (networkReader.isInternetAvailable()) {
+                Resource.Success(movieApi.getMovieDetails(movieId))
+            } else Resource.Error(message = "Network broken")
         } catch (e: Exception) {
             Resource.Error(message = e.localizedMessage)
         }

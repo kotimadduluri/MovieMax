@@ -56,7 +56,10 @@ fun MoviesScreen(
 
                 is UiState.Error -> {
                     ActionStateView(
-                        action = ActionState.ERROR(),
+                        action = ActionState.ERROR(
+                            message = (uiState.value as UiState.Error).message
+                                ?: "Something went wrong"
+                        ),
                         isActionRequired = true
                     ) {
                         event(MoviesScreenIntent.REFRESH)

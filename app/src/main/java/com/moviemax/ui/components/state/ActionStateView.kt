@@ -43,10 +43,10 @@ fun ActionStateView(
         )
         Spacer(modifier = Modifier.size(10.dp))
         Text(
-            text = action.message,
+            text = "Error",
             style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onError),
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
@@ -64,7 +64,7 @@ fun ActionStateView(
 fun ActionStatePreview() {
     ActionStateView(
         action = ActionState.ERROR(),
-        isActionRequired = true
+        isActionRequired = false
     ) {
         //
     }
