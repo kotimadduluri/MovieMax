@@ -31,7 +31,7 @@ val AppModule = module {
     }
 
     single<MovieRepository> {
-        MovieRepositoryImp(get())
+        MovieRepositoryImp(get(),get())
     }
 
     single {

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.moviemax.common.BaseViewModel
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.getMovies
+import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
 import com.moviemax.view.movie.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,13 +23,14 @@ class MoviesScreenViewModel(
     fun getMovies(page: Int = 1) {
         uiState.value = UiState.Loading
         viewModelScope.launch {
-            val response = moviesUseCase(page)
-            if (response is Resource.Success) {
+            val networkResponse = moviesUseCase(page)
+            if (networkResponse is Resource.Success<*>) {
+                val response = networkResponse as Resource.Success<MoviesResponse>
                 response.data?.getMovies()?.let {
                     uiState.value = UiState.Success(it)
                 } ?: { uiState.value = UiState.Error("No records found") }
             } else {
-                uiState.value = UiState.Error(response.message ?: "Something went wrong")
+                uiState.value = UiState.Error(networkResponse.message ?: "Something went wrong")
             }
         }
     }

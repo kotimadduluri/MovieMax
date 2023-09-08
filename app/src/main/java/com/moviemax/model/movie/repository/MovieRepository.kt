@@ -5,6 +5,6 @@ import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 
 interface MovieRepository {
-    suspend fun getMovies(page: Int): Resource<MoviesResponse>
-    suspend fun getMoviesDetails(movieId: Int): Resource<MovieDetailsResponse>
+    suspend fun getMovies(page: Int): Resource
+    suspend fun getMoviesDetails(movieId: Int): Resource
 }

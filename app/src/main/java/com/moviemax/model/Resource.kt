@@ -1,21 +1,19 @@
 package com.moviemax.model
 
 
-sealed class Resource<T>(
-    val data: T? = null,
+sealed class Resource(
     val message: String? = null,
     val status: STATUS
 ) {
 
-    class Success<T>(data: T?) :
-        Resource<T>(data = data, status = STATUS.SUCCESS)
+    class Success<T>(val data: T?) :
+        Resource(status = STATUS.SUCCESS)
 
-    class Error<T>(
-        data: T? = null,
+    class Error(
         message: String? = null,
         error: Throwable? = null
     ) :
-        Resource<T>(data, status = STATUS.ERROR, message = message)
+        Resource(status = STATUS.ERROR, message = message)
 
     enum class STATUS {
         SUCCESS, ERROR

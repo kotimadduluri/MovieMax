@@ -26,8 +26,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.moviemax.model.movie.getFakeMovies
 import com.moviemax.model.movie.data.domain.model.Movie
+import com.moviemax.model.movie.getFakeMovies
 import com.moviemax.ui.theme.GetColors.movieCardNetworkColor
 import com.moviemax.ui.theme.GetColors.movieCardStatusColor
 
