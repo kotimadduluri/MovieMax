@@ -26,9 +26,11 @@ class MoviesScreenViewModel(
             val networkResponse = moviesUseCase(page)
             if (networkResponse is Resource.Success<*>) {
                 val response = networkResponse as Resource.Success<MoviesResponse>
-                response.data?.getMovies()?.let {
-                    uiState.value = UiState.Success(it)
-                } ?: { uiState.value = UiState.Error("No records found") }
+                with(response.data?.getMovies()) {
+                    if (isNullOrEmpty()) {
+                        uiState.value = UiState.Error("No records found")
+                    } else uiState.value = UiState.Success(this)
+                }
             } else {
                 uiState.value = UiState.Error(networkResponse.message ?: "Something went wrong")
             }

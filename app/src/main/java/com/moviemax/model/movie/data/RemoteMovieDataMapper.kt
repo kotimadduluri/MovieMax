@@ -10,7 +10,7 @@ import com.moviemax.model.movie.data.remote.model.TvShow
 internal fun MoviesResponse.getMovies(): List<Movie> {
     return tvShows?.map { show ->
         show.toMovies()
-    } ?: listOf()
+    } ?: emptyList()
 }
 
 internal fun TvShow.toMovies(): Movie {
