@@ -14,8 +14,6 @@ import com.moviemax.viewmodel.MoviesScreenViewModel
 import com.moviemax.ui.theme.MovieMaxTheme
 import com.moviemax.view.movie.Destination
 import com.moviemax.view.movie.details.MovieDetailsScreen
-import com.moviemax.view.movie.details.MovieDetailsScreenIntent
-import com.moviemax.view.movie.list.MoviesScreenIntent
 import com.moviemax.viewmodel.MovieDetailsScreenViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -30,14 +28,8 @@ class MainActivity : ComponentActivity() {
                         val viewModel: MoviesScreenViewModel = getViewModel()
                         val state = viewModel.uiState().collectAsStateWithLifecycle()
                         MoviesScreen(state) { intent ->
-                            when (intent) {
-                                is MoviesScreenIntent.VIEW_DETAILS -> {
-                                    navControl.navigate(Destination.Details.createRoute(intent.movie.id))
-                                }
-
-                                is MoviesScreenIntent.REFRESH -> {
-                                    viewModel.getMovies()
-                                }
+                            viewModel.onAction(intent) { router ->
+                                navControl.navigate(router)
                             }
                         }
                     }
@@ -54,15 +46,7 @@ class MainActivity : ComponentActivity() {
                             state,
                             navControl
                         ) { intent ->
-                            when (intent) {
-                                is MovieDetailsScreenIntent.REFRESH -> {
-                                    viewModel.getMovieDetails(movieId)
-                                }
-
-                                is MovieDetailsScreenIntent.GET_DETAILS -> {
-                                    viewModel.getMovieDetails(intent.movieId)
-                                }
-                            }
+                            viewModel.onAction(intent)
                         }
                     }
                 }

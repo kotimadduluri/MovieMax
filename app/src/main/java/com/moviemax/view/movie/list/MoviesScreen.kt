@@ -18,6 +18,7 @@ import com.moviemax.ui.components.state.ActionState
 import com.moviemax.ui.components.state.ActionStateView
 import com.moviemax.ui.components.state.ActionStateViewCard
 import com.moviemax.view.movie.UiState
+import com.moviemax.viewmodel.MoviesScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,12 +58,12 @@ fun MoviesScreen(
                 is UiState.Error -> {
                     ActionStateView(
                         action = ActionState.ERROR(
-                            message = (uiState.value as UiState.Error).message
+                            message = (uiState.value as UiState.Error).message.asString()
                                 ?: "Something went wrong"
                         ),
                         isActionRequired = true
                     ) {
-                        event(MoviesScreenIntent.REFRESH)
+                        event(MoviesScreenIntent.Refresh)
                     }
                 }
 
@@ -89,15 +90,7 @@ fun MoviesList(
         data = dataElements
     ) { movie ->
         MovieCard(movie = movie) {
-            event(MoviesScreenIntent.VIEW_DETAILS(it))
+            event(MoviesScreenIntent.ViewDetails(it))
         }
     }
-}
-
-sealed class MoviesScreenIntent {
-
-    object REFRESH : MoviesScreenIntent()
-
-    data class VIEW_DETAILS(val movie: Movie) : MoviesScreenIntent()
-
 }

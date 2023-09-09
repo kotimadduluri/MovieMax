@@ -35,6 +35,7 @@ import com.moviemax.ui.components.state.ActionStateView
 import com.moviemax.ui.components.state.ActionStateViewCard
 import com.moviemax.ui.theme.GetColors
 import com.moviemax.view.movie.UiState
+import com.moviemax.viewmodel.MovieDetailsScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +46,7 @@ fun MovieDetailsScreen(
     event: (intent: MovieDetailsScreenIntent) -> Unit
 ) {
     LaunchedEffect(Unit) {
-        event(MovieDetailsScreenIntent.GET_DETAILS(movieId))
+        event(MovieDetailsScreenIntent.GetDetails(movieId))
     }
 
     AppContainer(
@@ -79,12 +80,12 @@ fun MovieDetailsScreen(
                 is UiState.Error -> {
                     ActionStateView(
                         action = ActionState.ERROR(
-                            message = (uiState.value as UiState.Error).message
+                            message = (uiState.value as UiState.Error).message.asString()
                                 ?: "Something went wrong"
                         ),
                         isActionRequired = true
                     ) {
-                        event(MovieDetailsScreenIntent.REFRESH(movieId))
+                        event(MovieDetailsScreenIntent.Refresh(movieId))
                     }
                 }
 
@@ -143,17 +144,8 @@ fun MovieDetailsSection(movie: Movie) {
 
                 Spacer(modifier = Modifier.size(10.dp))
 
-                ButtonWithProgressBar(
-                    text = "Play"
-                ) {
-                    //future development
-                }
-
-                ButtonWithProgressBar(
-                    text = "Download"
-                ) {
-                    //future development
-                }
+                ButtonWithProgressBar(text = "Play")
+                ButtonWithProgressBar(text = "Download")
 
                 Spacer(modifier = Modifier.size(10.dp))
 
@@ -162,9 +154,4 @@ fun MovieDetailsSection(movie: Movie) {
             }
         }
     }
-}
-
-sealed class MovieDetailsScreenIntent {
-    data class GET_DETAILS(val movieId: Int) : MovieDetailsScreenIntent()
-    data class REFRESH(val movieId: Int) : MovieDetailsScreenIntent()
 }

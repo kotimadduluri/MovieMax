@@ -3,16 +3,17 @@ package com.moviemax.viewmodel
 import androidx.lifecycle.asLiveData
 import com.google.common.truth.Truth
 import com.moviemax.common.BaseTest
-import com.moviemax.common.castAsError
-import com.moviemax.common.castAsSuccess
-import com.moviemax.fake.FAKE_NETWORK_ERROR
 import com.moviemax.fake.FakeMovieRepository
 import com.moviemax.fake.getFakeMoviesTestWithError
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
+import com.moviemax.model.movie.getFakeMovie
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
+import com.moviemax.view.movie.Destination
 import com.moviemax.view.movie.UiState
+import com.moviemax.view.movie.UiState.Loading.asError
+import com.moviemax.view.movie.UiState.Loading.asSuccess
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -38,21 +39,7 @@ class MoviesScreenViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `getMovieDetails()_success_with_default_page_loading`() = runTest {
-        //Given
-        coEvery { moviesUseCase(1) } returns fakeMovieRepository.getMovies(1)
-
-        //Assert
-        val stateValue = viewModel.uiState().value
-        Truth.assertThat(stateValue).isInstanceOf(UiState.Success::class.java)
-
-        val movies = stateValue.castAsSuccess<List<Movie>>().data
-        Truth.assertThat(movies).isNotNull()
-        Truth.assertThat(movies).isNotEmpty()
-    }
-
-    @Test
-    fun `getMovieDetails()_success_on_manual_request`() = runTest {
+    fun `onInit() success`() = runTest {
         //Given
         val fakeResponse = fakeMovieRepository.getMovies(1)
         coEvery { moviesUseCase(1) } returns fakeResponse
@@ -60,7 +47,7 @@ class MoviesScreenViewModelTest : BaseTest() {
         val states = observeStates()
 
         //When
-        viewModel.getMovies(1)
+        viewModel.onAction(MoviesScreenIntent.GetMovies(1))
 
         //Assertion
         with(states) {
@@ -71,7 +58,143 @@ class MoviesScreenViewModelTest : BaseTest() {
             Truth.assertThat(this[2]).isInstanceOf(UiState.Success::class.java)
 
             //data check
-            val movies = this[2].castAsSuccess<List<Movie>>().data
+            val movies = this[2].asSuccess<List<Movie>>().data
+            Truth.assertThat(movies).isNotNull()
+            Truth.assertThat(movies).isNotEmpty()
+        }
+    }
+
+    @Test
+    fun `onAction() error`() = runTest {
+        //Given
+        every { networkReader.isInternetAvailable() } returns false
+        val fakeResponse = fakeMovieRepository.getMovies(1)
+        coEvery { moviesUseCase(1) } returns fakeResponse
+
+        val states = observeStates()
+
+        //When
+        viewModel.onAction(MoviesScreenIntent.GetMovies(1))
+
+        //Assertion
+        with(states) {
+            //state check
+            Truth.assertThat(size).isEqualTo(3)
+            Truth.assertThat(this[0]).isInstanceOf(UiState.Success::class.java) //from
+            Truth.assertThat(this[1]).isEqualTo(UiState.Loading)
+            Truth.assertThat(this[2]).isInstanceOf(UiState.Error::class.java)
+
+            //data check
+            val error = this[2].asError()
+            Truth.assertThat(error.message).isNotNull()
+        }
+    }
+
+    @Test
+    fun `onAction() with refresh when success`() = runTest {
+        //Given
+        val fakeResponse = fakeMovieRepository.getMovies(1)
+        coEvery { moviesUseCase(1) } returns fakeResponse
+
+        val states = observeStates()
+
+        //When
+        viewModel.onAction(MoviesScreenIntent.Refresh)
+
+        //Assertion
+        with(states) {
+            //state check
+            Truth.assertThat(size).isEqualTo(3)
+            Truth.assertThat(this[0]).isInstanceOf(UiState.Success::class.java) //from
+            Truth.assertThat(this[1]).isEqualTo(UiState.Loading)
+            Truth.assertThat(this[2]).isInstanceOf(UiState.Success::class.java)
+
+            //data check
+            val movies = this[2].asSuccess<List<Movie>>().data
+            Truth.assertThat(movies).isNotNull()
+            Truth.assertThat(movies).isNotEmpty()
+        }
+    }
+
+    @Test
+    fun `onAction() with refresh when error`() = runTest {
+        //Given
+        every { networkReader.isInternetAvailable() } returns false
+        val fakeResponse = fakeMovieRepository.getMovies(1)
+        coEvery { moviesUseCase(1) } returns fakeResponse
+
+        val states = observeStates()
+
+        //When
+        viewModel.onAction(MoviesScreenIntent.Refresh)
+
+        //Assertion
+        with(states) {
+            //state check
+            Truth.assertThat(size).isEqualTo(3)
+            Truth.assertThat(this[0]).isInstanceOf(UiState.Success::class.java) //from
+            Truth.assertThat(this[1]).isEqualTo(UiState.Loading)
+            Truth.assertThat(this[2]).isInstanceOf(UiState.Error::class.java)
+
+            //data check
+            val error = this[2].asError()
+            Truth.assertThat(error.message).isNotNull()
+        }
+    }
+
+    @Test
+    fun `ViewDetails() should route to details screen`() = runTest {
+        //Given
+        val movieId = 29561
+        val movie = getFakeMovie(movieId)!!
+        val fakeRouter=Destination.Details.createRoute(movieId)
+
+        //When
+        var resultRouter:String? = null
+        viewModel.onAction(MoviesScreenIntent.ViewDetails(movie)){router->
+            resultRouter = router
+        }
+
+        //Assertion
+        Truth.assertThat(resultRouter).isNotNull()
+        Truth.assertThat(resultRouter).isEqualTo(fakeRouter)
+    }
+
+    @Test
+    fun `getMovieDetails() init method loads data successfully`() = runTest {
+        //Given
+        coEvery { moviesUseCase(1) } returns fakeMovieRepository.getMovies(1)
+
+        //Assert
+        val stateValue = viewModel.uiState().value
+        Truth.assertThat(stateValue).isInstanceOf(UiState.Success::class.java)
+
+        val movies = stateValue.asSuccess<List<Movie>>().data
+        Truth.assertThat(movies).isNotNull()
+        Truth.assertThat(movies).isNotEmpty()
+    }
+
+    @Test
+    fun `getMovieDetails() success on user request`() = runTest {
+        //Given
+        val fakeResponse = fakeMovieRepository.getMovies(1)
+        coEvery { moviesUseCase(1) } returns fakeResponse
+
+        val states = observeStates()
+
+        //When
+        viewModel.onAction(MoviesScreenIntent.GetMovies(1))
+
+        //Assertion
+        with(states) {
+            //state check
+            Truth.assertThat(size).isEqualTo(3)
+            Truth.assertThat(this[0]).isInstanceOf(UiState.Success::class.java) //from
+            Truth.assertThat(this[1]).isEqualTo(UiState.Loading)
+            Truth.assertThat(this[2]).isInstanceOf(UiState.Success::class.java)
+
+            //data check
+            val movies = this[2].asSuccess<List<Movie>>().data
             Truth.assertThat(movies).isNotNull()
             Truth.assertThat(movies).isNotEmpty()
         }
@@ -96,17 +219,15 @@ class MoviesScreenViewModelTest : BaseTest() {
             Truth.assertThat(this[2]).isInstanceOf(UiState.Error::class.java)
 
             //data check
-            val movies = this[2].castAsError()
+            val movies = this[2].asError()
             Truth.assertThat(movies.message).isNotNull()
-            Truth.assertThat(movies.message).isNotEmpty()
         }
     }
 
     @Test
     fun `getMovieDetails()_error_generic`() = runTest {
         //Given
-        val error = "error"
-        coEvery { moviesUseCase(1) } returns Resource.Error(message = error)
+        coEvery { moviesUseCase(1) } returns Resource.Error()
         val states = observeStates()
 
         //When
@@ -121,9 +242,8 @@ class MoviesScreenViewModelTest : BaseTest() {
             Truth.assertThat(this[2]).isInstanceOf(UiState.Error::class.java)
 
             //data check
-            val movies = this[2].castAsError()
+            val movies = this[2].asError()
             Truth.assertThat(movies.message).isNotNull()
-            Truth.assertThat(movies.message).isEqualTo(error)
         }
     }
 
@@ -147,9 +267,8 @@ class MoviesScreenViewModelTest : BaseTest() {
             Truth.assertThat(this[2]).isInstanceOf(UiState.Error::class.java)
 
             //data check
-            val movies = this[2].castAsError()
+            val movies = this[2].asError()
             Truth.assertThat(movies.message).isNotNull()
-            Truth.assertThat(movies.message).isEqualTo(FAKE_NETWORK_ERROR)
         }
     }
 
