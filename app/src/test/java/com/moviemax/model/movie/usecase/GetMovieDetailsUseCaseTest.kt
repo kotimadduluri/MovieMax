@@ -7,10 +7,12 @@ import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class GetMovieDetailsUseCaseTest : BaseTest() {
 
     @MockK
@@ -21,7 +23,7 @@ class GetMovieDetailsUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun `GetMovieDetailsUseCase_when_success`()= runTest{
+    fun `GetMovieDetailsUseCase when success`()= runTest{
         //given
         val movieId = 29561
         val movieDetailsResponse = getMovieDetailsResponseTest(movieId)
@@ -38,7 +40,7 @@ class GetMovieDetailsUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun `GetMovieDetailsUseCase_when_error`()= runTest{
+    fun `GetMovieDetailsUseCase when error throws`()= runTest{
 //Given
         val error ="ERROR"
         val movieId = 29561

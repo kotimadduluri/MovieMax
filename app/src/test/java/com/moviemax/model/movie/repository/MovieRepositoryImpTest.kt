@@ -12,10 +12,12 @@ import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class MovieRepositoryImpTest : BaseTest() {
 
     @MockK

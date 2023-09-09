@@ -67,6 +67,17 @@ fun getFakeMovieTest(movieId: Int): TvShow? = fakeMoviesList.findLast {
 
 fun getFakeMoviesTest() = fakeMoviesList
 
+fun getFakeMoviesTestWithError() = MoviesResponse(
+    total = "5",
+    page = 1,
+    pages = 1,
+    tvShows = null
+)
+
 fun getMovieResponseTest() = fakeTvShowResponse
+
 fun getMovieDetailsResponseTest(movieId: Int) =
     MovieDetailsResponse(getFakeMovieTest(movieId))
+
+fun getMovieDetailsResponseTestWithError(movieId: Int) =
+    MovieDetailsResponse(tvShow = null)

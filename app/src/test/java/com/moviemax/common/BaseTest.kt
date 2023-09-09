@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 abstract class BaseTest {
 
     @get:Rule
-    val coroutineRule = InstantTaskExecutorRule()
+    val taskExecutorRule = InstantTaskExecutorRule()
 
     @MockK
     lateinit var networkReader: NetworkReader
@@ -27,7 +27,7 @@ abstract class BaseTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        Dispatchers.setMain(TestDispatcherProvider().main)
+        Dispatchers.setMain(TestDispatcherProvider().io) //
         initRequiredDependencies()
     }
 

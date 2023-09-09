@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -80,16 +78,17 @@ fun MovieDetailsScreen(
 
                 is UiState.Error -> {
                     ActionStateView(
-                        action = ActionState.ERROR(message = (uiState.value as UiState.Error).message ?: "Something went wrong"),
+                        action = ActionState.ERROR(
+                            message = (uiState.value as UiState.Error).message
+                                ?: "Something went wrong"
+                        ),
                         isActionRequired = true
                     ) {
                         event(MovieDetailsScreenIntent.REFRESH(movieId))
                     }
                 }
 
-                else -> {
-
-                }
+                else -> {}
             }
         }
     }
@@ -146,13 +145,13 @@ fun MovieDetailsSection(movie: Movie) {
 
                 ButtonWithProgressBar(
                     text = "Play"
-                ){
+                ) {
                     //future development
                 }
 
                 ButtonWithProgressBar(
                     text = "Download"
-                ){
+                ) {
                     //future development
                 }
 

@@ -3,17 +3,22 @@ package com.moviemax.fake
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.repository.MovieRepository
-import kotlinx.coroutines.delay
+import com.network.reader.NetworkReader
 
-const val FAKE_NETWORK_ERROR ="ERROR"
-class FakeMovieRepository : MovieRepository {
+const val FAKE_NETWORK_ERROR = "ERROR"
 
-
+class FakeMovieRepository(
+    private val networkReader: NetworkReader
+) : MovieRepository {
     override suspend fun getMovies(page: Int): Resource {
-        return Resource.Success<MoviesResponse>(getMovieResponseTest())
+        return if (networkReader.isInternetAvailable()) {
+            Resource.Success<MoviesResponse>(getMovieResponseTest())
+        } else Resource.Error(message = FAKE_NETWORK_ERROR)
     }
 
     override suspend fun getMoviesDetails(movieId: Int): Resource {
-        return Resource.Success(getMovieDetailsResponseTest(movieId))
+        return if (networkReader.isInternetAvailable()) {
+            return Resource.Success(getMovieDetailsResponseTest(movieId))
+        } else Resource.Error(message = FAKE_NETWORK_ERROR)
     }
 }

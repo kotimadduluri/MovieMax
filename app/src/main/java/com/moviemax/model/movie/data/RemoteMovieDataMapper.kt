@@ -9,11 +9,11 @@ import com.moviemax.model.movie.data.remote.model.TvShow
 // mapper to map with ui objects from remote source
 internal fun MoviesResponse.getMovies(): List<Movie> {
     return tvShows?.map { show ->
-        show.toMovies()
+        show.toMovie()
     } ?: emptyList()
 }
 
-internal fun TvShow.toMovies(): Movie {
+internal fun TvShow.toMovie(): Movie {
     return Movie(
         country = country,
         description = description,

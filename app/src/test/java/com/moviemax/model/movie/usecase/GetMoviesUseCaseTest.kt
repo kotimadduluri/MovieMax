@@ -7,10 +7,12 @@ import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class GetMoviesUseCaseTest : BaseTest() {
 
     @MockK
@@ -37,7 +39,7 @@ class GetMoviesUseCaseTest : BaseTest() {
     fun `GetMoviesUseCase_error`() = runTest {
 
         //Given
-        val error ="ERROR"
+        val error = "ERROR"
         coEvery { moviesUseCase(1) } returns Resource.Error(message = error)
 
         //when
