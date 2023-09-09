@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MovieMax</string>
+
+    <string name="success">Success</string>
+    <string name="retry">Retry</string>
+
+    <string name="error">Error</string>
+    <string name="error_no_records">No records found.</string>
+    <string name="error_network">Network not available.</string>
+    <string name="error_something_went_wrong">Something went wrong.</string>
+    <string name="error_details_not_found">Details not found.</string>
+
 </resources>

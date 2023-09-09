@@ -1,5 +1,7 @@
 package com.moviemax.model.movie.repository
 
+import com.moviemax.R
+import com.moviemax.UiText
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.MovieApi
 import com.network.reader.NetworkReader
@@ -13,9 +15,9 @@ class MovieRepositoryImp(
             if (networkReader.isInternetAvailable()) {
                 val response = movieApi.getMovies(page)
                 Resource.Success(response)
-            } else Resource.Error(message = "Network broken")
+            } else Resource.Error(message = UiText.StringResource(R.string.error_network))
         } catch (e: Exception) {
-            Resource.Error(message = e.localizedMessage)
+            Resource.Error(message = UiText.PlainString(e.localizedMessage))
         }
     }
 
@@ -23,9 +25,9 @@ class MovieRepositoryImp(
         return try {
             if (networkReader.isInternetAvailable()) {
                 Resource.Success(movieApi.getMovieDetails(movieId))
-            } else Resource.Error(message = "Network broken")
+            } else Resource.Error(message = UiText.StringResource(R.string.error_network))
         } catch (e: Exception) {
-            Resource.Error(message = e.localizedMessage)
+            Resource.Error(message = UiText.PlainString(e.localizedMessage))
         }
     }
 }

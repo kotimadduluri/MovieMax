@@ -2,10 +2,10 @@ package com.moviemax.model.movie.usecase
 
 import com.google.common.truth.Truth
 import com.moviemax.common.BaseTest
-import com.moviemax.fake.getMovieDetailsResponseTest
+import com.moviemax.fake.FakeMovieRepository
 import com.moviemax.model.Resource
-import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -17,40 +17,41 @@ class GetMovieDetailsUseCaseTest : BaseTest() {
 
     @MockK
     lateinit var movieDetailsUseCase: GetMovieDetailsUseCase
+    private lateinit var fakeMovieRepository: FakeMovieRepository
 
     override fun initRequiredDependencies() {
-        //not required
+        fakeMovieRepository = FakeMovieRepository(networkReader)
     }
 
     @Test
-    fun `GetMovieDetailsUseCase when success`()= runTest{
+    fun `GetMovieDetailsUseCase when success`() = runTest {
         //given
         val movieId = 29561
-        val movieDetailsResponse = getMovieDetailsResponseTest(movieId)
-        coEvery { movieDetailsUseCase(movieId) } returns Resource.Success<MovieDetailsResponse>(
-            movieDetailsResponse
-        )
+        every { networkReader.isInternetAvailable() } returns true
+        val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
+        coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
 
         //when
         val response = movieDetailsUseCase(movieId)
 
         //assert
-        Truth.assertThat(response.status).isInstanceOf(Resource.STATUS.SUCCESS::class.java)
-        Truth.assertThat(movieDetailsResponse).isEqualTo((response as Resource.Success<MovieDetailsResponse>).data)
+        Truth.assertThat(response).isInstanceOf(Resource.Success::class.java)
+        Truth.assertThat(response).isEqualTo(fakeResponse)
     }
 
     @Test
-    fun `GetMovieDetailsUseCase when error throws`()= runTest{
+    fun `GetMovieDetailsUseCase when error throws`() = runTest {
 //Given
-        val error ="ERROR"
         val movieId = 29561
-        coEvery { movieDetailsUseCase(movieId) } returns Resource.Error(message = error)
+        every { networkReader.isInternetAvailable() } returns false
+        val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
+        coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
 
         //when
         val response = movieDetailsUseCase(movieId)
 
         //assert
-        Truth.assertThat(response.status).isInstanceOf(Resource.STATUS.ERROR::class.java)
-        Truth.assertThat(response.message).isEqualTo(error)
+        Truth.assertThat(response).isInstanceOf(Resource.Error::class.java)
+        Truth.assertThat(response.message).isNotNull()
     }
 }
