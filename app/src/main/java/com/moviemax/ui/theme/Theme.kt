@@ -15,16 +15,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val darkColorScheme = darkColorScheme(
+    primary = DarkColours.Primary,
+    secondary = DarkColours.Secondary,
+    tertiary = DarkColours.Tertiary,
+    surface = DarkColours.Surface,
+    background = DarkColours.Surface,
+    onSurface = DarkColours.onSurface,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val lightColorScheme = lightColorScheme(
+    primary = LightColours.Primary,
+    secondary = LightColours.Secondary,
+    tertiary = LightColours.Tertiary,
+    surface = LightColours.Surface,
+    background = LightColours.Surface,
+    onSurface = LightColours.onSurface,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -50,8 +56,8 @@ fun MovieMaxTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> darkColorScheme
+        else -> lightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {

@@ -2,10 +2,34 @@ package com.moviemax.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+object DarkColours{
+    val Primary = Color(0xFF009688)
+    val Secondary = Color(0xFF673AB7)
+    val Tertiary = Color(0xFF8BC34A)
+    val Surface = Color(0xFF0E101F)
+    val onSurface = Color(0xFFFFFFFF)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+    //additional colors
+    val movieCardStatusColor = Primary
+    val movieCardNetworkColor = Color(0xFFFFC107)
+}
+
+object LightColours{
+    val Primary = Color(0xFF009688)
+    val Secondary = Color(0xFF673AB7)
+    val Tertiary = Color(0xFF8BC34A)
+    val Surface = Color(0xFF0E101F)
+    val onSurface = Color(0xFF333333)
+
+    //additional colors
+    val movieCardStatusColor = Primary
+    val movieCardNetworkColor = Secondary
+}
+
+object GetColors{
+
+    fun movieCardStatusColor(isDark:Boolean) = if(isDark) DarkColours.movieCardStatusColor else LightColours.movieCardStatusColor
+    fun movieCardNetworkColor(isDark:Boolean) = if(isDark) DarkColours.movieCardNetworkColor else LightColours.movieCardNetworkColor
+    fun getFlavourColor(isDark:Boolean) = if(isDark) DarkColours.Secondary else LightColours.Primary
+
+}
