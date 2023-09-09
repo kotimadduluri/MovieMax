@@ -1,10 +1,11 @@
 package com.moviemax.common
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 open class BaseViewModel<T>(state:T) : ViewModel() {
-    fun uiState() : State<T> = uiState
-    protected val uiState = mutableStateOf(state)
+    fun uiState() : StateFlow<T> = uiState.asStateFlow()
+    protected val uiState = MutableStateFlow(state)
 }

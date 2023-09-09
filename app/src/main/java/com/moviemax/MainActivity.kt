@@ -3,6 +3,7 @@ package com.moviemax
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navControl, startDestination = Destination.List.route) {
                     composable(Destination.List.route) {
                         val viewModel: MoviesScreenViewModel = getViewModel()
-                        val state = viewModel.uiState()
+                        val state = viewModel.uiState().collectAsStateWithLifecycle()
                         MoviesScreen(state) { intent ->
                             when (intent) {
                                 is MoviesScreenIntent.VIEW_DETAILS -> {
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
                     ) { navBackStackEntry ->
                         val movieId = navBackStackEntry.arguments?.getInt("movieId")!!
                         val viewModel: MovieDetailsScreenViewModel = getViewModel()
-                        val state = viewModel.uiState()
+                        val state = viewModel.uiState().collectAsStateWithLifecycle()
                         MovieDetailsScreen(
                             movieId,
                             state,

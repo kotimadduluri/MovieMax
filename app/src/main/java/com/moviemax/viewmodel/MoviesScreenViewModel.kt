@@ -20,15 +20,20 @@ class MoviesScreenViewModel(
         getMovies(currentPage.value)
     }
 
-    fun getMovies(page: Int = 1) {
+    fun getMovies(page: Int = currentPage.value) {
         uiState.value = UiState.Loading
         viewModelScope.launch {
             val networkResponse = moviesUseCase(page)
             if (networkResponse is Resource.Success<*>) {
                 val response = networkResponse as Resource.Success<MoviesResponse>
-                response.data?.getMovies()?.let {
-                    uiState.value = UiState.Success(it)
-                } ?: { uiState.value = UiState.Error("No records found") }
+                with(response.data?.getMovies()) {
+                    if (isNullOrEmpty()) {
+                        uiState.value = UiState.Error("No records found")
+                    } else {
+                        currentPage.value = page
+                        uiState.value = UiState.Success(this)
+                    }
+                }
             } else {
                 uiState.value = UiState.Error(networkResponse.message ?: "Something went wrong")
             }
