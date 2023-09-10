@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,12 +36,13 @@ import com.moviemax.ui.theme.GetColors.movieCardStatusColor
 fun MovieCard(
     isDarkMode: Boolean = isSystemInDarkTheme(),
     movie: Movie,
-    onItemClicked: (item: Movie) -> Unit
+    onItemClicked: (item: Movie) -> Unit ={}
 ) {
     val cardRadios = 8.dp
     val lineSpace = 4.dp
     Box(
         modifier = Modifier
+            .testTag("${movie.id}")
             .fillMaxWidth()
             .padding(bottom = 16.dp)
             .clickable {
@@ -102,7 +104,7 @@ fun MovieCard(
         AsyncImage(
             model = movie.imageThumbnailPath,
             contentScale = ContentScale.FillBounds,
-            contentDescription = "Movie Image",
+            contentDescription = movie.name,
             modifier = Modifier
                 .width(90.dp)
                 .height(115.dp)
@@ -116,7 +118,5 @@ fun MovieCard(
 @Composable
 fun MovieCardPreview() {
     val movie = getFakeMovies()[0]
-    MovieCard(movie = movie) {
-        //do nothing
-    }
+    MovieCard(movie = movie)
 }

@@ -5,6 +5,7 @@ import com.google.common.truth.Truth
 import com.moviemax.common.BaseTest
 import com.moviemax.fake.FakeMovieRepository
 import com.moviemax.fake.getFakeMoviesTestWithError
+import com.moviemax.fake.movieId
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
@@ -145,7 +146,6 @@ class MoviesScreenViewModelTest : BaseTest() {
     @Test
     fun `ViewDetails() should route to details screen`() = runTest {
         //Given
-        val movieId = 29561
         val movie = getFakeMovie(movieId)!!
         val fakeRouter=Destination.Details.createRoute(movieId)
 

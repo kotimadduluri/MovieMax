@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
@@ -34,6 +35,7 @@ fun ImageSlider(images: List<String>) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
+            .testTag("ImageSlider")
     ) {
         itemsIndexed(images) { index, imageUrl ->
             Column(modifier = Modifier.fillMaxSize()) {
@@ -42,10 +44,11 @@ fun ImageSlider(images: List<String>) {
                         .width(imageWidth)
                         .height(imageHeight)
                         .padding(end = 16.dp)
+                        .testTag("picture $index")
                 ) {
                     AsyncImage(
                         model = imageUrl,
-                        contentDescription = "Movie Image",
+                        contentDescription = "Movie Image $index",
                         modifier = Modifier.matchParentSize(),
                         contentScale = ContentScale.FillBounds,
                     )

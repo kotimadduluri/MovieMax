@@ -6,6 +6,7 @@ import com.moviemax.UiText
 import com.moviemax.common.BaseTest
 import com.moviemax.fake.FakeMovieRepository
 import com.moviemax.fake.getMovieDetailsResponseTestWithError
+import com.moviemax.fake.movieId
 import com.moviemax.model.Resource
 import com.moviemax.model.asSuccess
 import com.moviemax.model.movie.data.domain.model.Movie
@@ -42,7 +43,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `onAction() with GetDetails on success`() = runTest {
         //Given
-        val movieId = 29561
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
 
@@ -68,7 +68,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `onAction() with GetDetails on error`() = runTest {
         //Given
-        val movieId = 29561
         every { networkReader.isInternetAvailable() } returns false
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
@@ -94,7 +93,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `onAction() with Refresh on success`() = runTest {
         //Given
-        val movieId = 29561
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
 
@@ -120,7 +118,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `onAction() with Refresh on error`() = runTest {
         //Given
-        val movieId = 29561
         every { networkReader.isInternetAvailable() } returns false
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
@@ -145,7 +142,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `getMovieDetails() success`() = runTest {
         //Given
-        val movieId = 29561
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
 
@@ -171,7 +167,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `getMovieDetails() api success but return empty data`() = runTest {
         //Given
-        val movieId = 29561
         val fakeData =
             Resource.Success<MovieDetailsResponse>(getMovieDetailsResponseTestWithError(movieId))
         coEvery { movieDetailsUseCase(movieId) } returns fakeData
@@ -198,7 +193,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `getMovieDetails() when network error comes`() = runTest {
         //Given
-        val movieId = 29561
         every { networkReader.isInternetAvailable() } returns false
         val fakeResponse = fakeMovieRepository.getMoviesDetails(movieId)
         coEvery { movieDetailsUseCase(movieId) } returns fakeResponse
@@ -223,7 +217,6 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     @Test
     fun `getMovieDetails() when generic error occurs`() = runTest {
         //Given
-        val movieId = 29561
         coEvery { movieDetailsUseCase(movieId) } returns Resource.Error()
 
         val states = observeStates()

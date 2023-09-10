@@ -10,6 +10,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.ui.components.common.AppContainer
@@ -79,6 +80,7 @@ fun MoviesScreen(
 @Composable
 fun MoviesList(
     data: List<Movie>,
+    modifier: Modifier = Modifier,
     event: (intent: MoviesScreenIntent) -> Unit
 ) {
 
@@ -87,7 +89,8 @@ fun MoviesList(
     }
 
     VerticalList(
-        data = dataElements
+        data = dataElements,
+        modifier = modifier.testTag("MoviesList")
     ) { movie ->
         MovieCard(movie = movie) {
             event(MoviesScreenIntent.ViewDetails(it))

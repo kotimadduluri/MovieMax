@@ -16,6 +16,8 @@ private val movieTemp = Movie(
     rating = "9.1157",
     ratingCount = "648",
     pictures = listOf(
+        "https://static.episodate.com/images/episode/29560-242.jpg",
+        "https://static.episodate.com/images/episode/29560-242.jpg",
         "https://static.episodate.com/images/episode/29560-242.jpg"
     )
 
