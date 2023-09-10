@@ -1,38 +1,37 @@
 package com.moviemax.di
 
-import com.moviemax.BuildConfig
+import com.moviemax.fake.FakeMovieRepository
+import com.moviemax.fake.FakeMoviesApi
 import com.moviemax.model.movie.MovieApi
 import com.moviemax.model.movie.repository.MovieRepository
-import com.moviemax.model.movie.repository.MovieRepositoryImp
 import com.moviemax.model.movie.usecase.GetMovieDetailsUseCase
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
 import com.moviemax.viewmodel.MovieDetailsScreenViewModel
 import com.moviemax.viewmodel.MoviesScreenViewModel
-import com.network.client.DomainConfiguration
-import com.network.client.NetworkClient
+import com.network.reader.NetworkReader
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val AppModule = module {
-    single {
-        DomainConfiguration {
-            scheme = "https"
-            host = BuildConfig.APP_DOMAIN
-            logEnabled = BuildConfig.DEBUG
-        }
-    }
-    single<MovieApi> {
-        get<NetworkClient>().buildApi(MovieApi::class.java)
+val TestCommonTestModule = module {
+    single<NetworkReader> {
+        NetworkReader { true }
     }
 
-    singleOf(::MovieRepositoryImp) bind MovieRepository::class
+    singleOf(::FakeMoviesApi) bind MovieApi::class
 
-    singleOf(::GetMoviesUseCase)
-    singleOf(::GetMovieDetailsUseCase)
-
-    viewModelOf(::MoviesScreenViewModel)
-    viewModelOf(::MovieDetailsScreenViewModel)
-
+    singleOf(::FakeMovieRepository) bind MovieRepository::class
 }
+
+val TestMoviesListModule = module {
+    singleOf(::GetMoviesUseCase)
+    viewModelOf(::MoviesScreenViewModel)
+}
+
+val TestMovieDetailsModule = module {
+    singleOf(::GetMovieDetailsUseCase)
+    viewModelOf(::MovieDetailsScreenViewModel)
+}
+
+

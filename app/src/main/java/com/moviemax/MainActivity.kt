@@ -15,7 +15,7 @@ import com.moviemax.ui.theme.MovieMaxTheme
 import com.moviemax.view.movie.Destination
 import com.moviemax.view.movie.details.MovieDetailsScreen
 import com.moviemax.viewmodel.MovieDetailsScreenViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                 val navControl = rememberNavController()
                 NavHost(navController = navControl, startDestination = Destination.List.route) {
                     composable(Destination.List.route) {
-                        val viewModel: MoviesScreenViewModel = getViewModel()
+                        val viewModel: MoviesScreenViewModel = koinViewModel()
                         val state = viewModel.uiState().collectAsStateWithLifecycle()
                         MoviesScreen(state) { intent ->
                             viewModel.onAction(intent) { router ->
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         arguments = listOf(navArgument("movieId") { type = NavType.IntType })
                     ) { navBackStackEntry ->
                         val movieId = navBackStackEntry.arguments?.getInt("movieId")!!
-                        val viewModel: MovieDetailsScreenViewModel = getViewModel()
+                        val viewModel: MovieDetailsScreenViewModel = koinViewModel()
                         val state = viewModel.uiState().collectAsStateWithLifecycle()
                         MovieDetailsScreen(
                             movieId,

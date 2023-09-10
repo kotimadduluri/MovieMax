@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">MovieMax</string>
 
+    <!---Begin default vales here-->
+
+    <string name="default_label_button">Button</string>
+    <string name="default_label_text">Text</string>
+
     <string name="success">Success</string>
     <string name="retry">Retry</string>
 
@@ -9,5 +14,7 @@
     <string name="error_network">Network not available.</string>
     <string name="error_something_went_wrong">Something went wrong.</string>
     <string name="error_details_not_found">Details not found.</string>
+
+    <!---Ends default vales here-->
 
 </resources>

@@ -105,7 +105,7 @@ fun MovieDetailsSection(movie: Movie) {
     ) {
         with(movie) {
             Column(
-                modifier = androidx.compose.ui.Modifier
+                modifier = Modifier
                     .fillMaxHeight()
                     .verticalScroll(state = scrollState)
             ) {

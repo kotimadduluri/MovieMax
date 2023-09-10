@@ -14,7 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.moviemax.KoinTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -97,6 +97,7 @@ dependencies {
     val koinVersion = "3.4.0"
     implementation("io.insert-koin:koin-core:$koinVersion")
     implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
     //custom modules
     implementation(project(mapOf("path" to ":network")))
@@ -108,13 +109,8 @@ dependencies {
 
     //testing related
 
-    //for debugging compose
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-
     //coroutines
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
-
     //livedata
     testImplementation("androidx.lifecycle:lifecycle-livedata-ktx:$androidLifecycle")
 
@@ -134,7 +130,16 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Test rules and transitive dependencies:
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
+    //di
+    androidTestImplementation("io.insert-koin:koin-test-junit4:$koinVersion")  //for testing
+
+    //debugging level
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    // Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }

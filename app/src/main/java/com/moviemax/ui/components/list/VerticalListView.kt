@@ -13,7 +13,9 @@ fun <T> VerticalList(
     modifier: Modifier = Modifier.padding(8.dp),
     itemContent: @Composable (T) -> Unit
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        modifier = modifier
+    ) {
         items(data) { item ->
             itemContent(item)
         }
