@@ -1,6 +1,6 @@
 package com.moviemax.view.movie
 
-import com.moviemax.UiText
+import com.common.util.UiText
 
 sealed class UiState {
     object None : UiState()
@@ -9,10 +9,10 @@ sealed class UiState {
     data class Error(val message: UiText) : UiState()
 
 
-    fun <T> UiState.asSuccess() : UiState.Success<T>{
+    fun <T> asSuccess() : UiState.Success<T>{
         return this as UiState.Success<T>
     }
-    fun UiState.asError() : UiState.Error {
+    fun asError() : UiState.Error {
         return this as UiState.Error
     }
 }

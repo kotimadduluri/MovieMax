@@ -6,8 +6,8 @@ import com.moviemax.model.movie.MovieApi
 import com.moviemax.model.movie.repository.MovieRepository
 import com.moviemax.model.movie.usecase.GetMovieDetailsUseCase
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
-import com.moviemax.viewmodel.MovieDetailsScreenViewModel
-import com.moviemax.viewmodel.MoviesScreenViewModel
+import com.moviemax.viewmodel.movie.MovieDetailsScreenViewModel
+import com.moviemax.viewmodel.movie.MoviesScreenViewModel
 import com.network.reader.NetworkReader
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val TestCommonTestModule = module {
     single<NetworkReader> {
-        NetworkReader { true }
+        mockWithNetwork()
     }
 
     singleOf(::FakeMoviesApi) bind MovieApi::class
@@ -33,5 +33,8 @@ val TestMovieDetailsModule = module {
     singleOf(::GetMovieDetailsUseCase)
     viewModelOf(::MovieDetailsScreenViewModel)
 }
+
+fun mockNoNetwork():NetworkReader=NetworkReader { false }
+fun mockWithNetwork():NetworkReader=NetworkReader { true }
 
 

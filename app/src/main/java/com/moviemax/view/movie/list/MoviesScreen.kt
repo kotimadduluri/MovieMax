@@ -12,14 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.common.util.UiText
 import com.moviemax.model.movie.data.domain.model.Movie
-import com.moviemax.ui.components.common.AppContainer
-import com.moviemax.ui.components.list.VerticalList
-import com.moviemax.ui.components.state.ActionState
-import com.moviemax.ui.components.state.ActionStateView
-import com.moviemax.ui.components.state.ActionStateViewCard
+import com.common.ui.components.AppContainer
+import com.common.ui.components.list.VerticalList
+import com.common.ui.components.state.ActionState
+import com.common.ui.components.state.ActionStateView
+import com.common.ui.components.state.ActionStateViewCard
+import com.moviemax.R
 import com.moviemax.view.movie.UiState
-import com.moviemax.viewmodel.MoviesScreenIntent
+import com.moviemax.viewmodel.movie.MoviesScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +31,7 @@ fun MoviesScreen(
 ) {
 
     AppContainer(
-        title = "Movies",
+        title = UiText.StringResource(R.string.movies),
         navigation = { }
     ) {
         Column(
@@ -43,14 +45,12 @@ fun MoviesScreen(
             when (uiState.value) {
                 is UiState.Loading -> {
                     ActionStateViewCard(
-                        action = ActionState.LOADING(
-                            message = "Looking for content"
-                        )
+                        action = ActionState.LOADING()
                     )
                 }
 
                 is UiState.Success<*> -> {
-                    val state = uiState.value as UiState.Success<List<Movie>>
+                    val state = uiState.value.asSuccess<List<Movie>>()
                     MoviesList(state.data) { intent ->
                         event(intent)
                     }
@@ -59,8 +59,7 @@ fun MoviesScreen(
                 is UiState.Error -> {
                     ActionStateView(
                         action = ActionState.ERROR(
-                            message = (uiState.value as UiState.Error).message.asString()
-                                ?: "Something went wrong"
+                            message = uiState.value.asError().message
                         ),
                         isActionRequired = true
                     ) {

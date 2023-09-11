@@ -1,7 +1,7 @@
 package com.moviemax.model
 
-import com.moviemax.R
-import com.moviemax.UiText
+import com.common.util.UiText
+import com.common.R
 
 
 sealed class Resource(

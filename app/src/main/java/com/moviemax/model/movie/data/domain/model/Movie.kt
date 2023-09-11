@@ -20,6 +20,7 @@ data class Movie(
     val status: String,
     val url: String? = null,
     val network: String,
+    val isFavourite:Boolean =false
 )
 
 data class MovieEpisode(

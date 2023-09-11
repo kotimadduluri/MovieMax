@@ -1,6 +1,6 @@
 package com.moviemax.fake
 
-import com.moviemax.UiText
+import com.common.util.UiText
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.repository.MovieRepository

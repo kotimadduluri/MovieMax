@@ -1,12 +1,12 @@
 package com.moviemax.fake
 
-import com.moviemax.UiText
+import com.common.util.UiText
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.repository.MovieRepository
 import com.network.reader.NetworkReader
 
-const val FAKE_NETWORK_ERROR = "ERROR"
+const val FAKE_NETWORK_ERROR = "FAKE_NETWORK_ERROR"
 
 class FakeMovieRepository(
     private val networkReader: NetworkReader
@@ -14,7 +14,9 @@ class FakeMovieRepository(
     override suspend fun getMovies(page: Int): Resource {
         return if (networkReader.isInternetAvailable()) {
             Resource.Success<MoviesResponse>(getMovieResponseTest())
-        } else Resource.Error(message = UiText.PlainString(FAKE_NETWORK_ERROR))
+        } else Resource.Error(
+            message = UiText.PlainString(FAKE_NETWORK_ERROR)
+        )
     }
 
     override suspend fun getMoviesDetails(movieId: Int): Resource {

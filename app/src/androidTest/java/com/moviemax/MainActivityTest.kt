@@ -15,8 +15,12 @@ import com.moviemax.util.assertMovieDetailsCheck
 import com.moviemax.util.assertMovieListItemClickCheck
 import com.moviemax.util.assertMovieListScrollBottom
 import com.moviemax.util.assertMovieListScrollTop
+import com.moviemax.util.assertNoNetworkCheck
+import com.moviemax.util.assertNoNetworkWithRetryButtonCheck
+import com.moviemax.util.assertNoNetworkWithRetryButtonClickCheck
 
 import org.junit.Test
+import org.koin.test.mock.declare
 
 class MainActivityTest : BaseUITest(
     listOf(AppModule, TestCommonTestModule, TestMoviesListModule, TestMovieDetailsModule)

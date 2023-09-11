@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +23,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.common.R
+import com.common.ui.components.icon.IconWithDrawable
+import com.common.ui.components.text.TextView
+import com.common.ui.components.text.TitleTextView
 import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.getFakeMovies
-import com.moviemax.ui.theme.GetColors.movieCardNetworkColor
-import com.moviemax.ui.theme.GetColors.movieCardStatusColor
+import com.common.ui.theme.GetColors.movieCardNetworkColor
+import com.common.ui.theme.GetColors.movieCardStatusColor
+import com.common.ui.theme.spacing
+import com.common.util.UiImage
+import com.common.util.UiText
 
 @Composable
 fun MovieCard(
@@ -69,48 +76,59 @@ fun MovieCard(
                         .padding(start = 90.dp)
                 ) {
                     Spacer(modifier = Modifier.height(lineSpace))
-                    Text(
-                        text = movie.name,
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colorScheme.onBackground
+                    TitleTextView(
+                        text = UiText.PlainString(movie.name),
+                        textStyle = MaterialTheme.typography.titleLarge,
+                        fontColor = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.height(lineSpace))
-                    Text(
-                        text = "${movie.network}[${movie.country}]",
-                        style = MaterialTheme.typography.bodySmall,
+                    TextView(
+                        text = UiText.PlainString("${movie.network}[${movie.country}]"),
+                        textStyle = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Normal,
-                        color = movieCardNetworkColor(isDarkMode)
+                        fontColor = movieCardNetworkColor(isDarkMode),
+                        fontSize = 14.sp
                     )
                     Spacer(modifier = Modifier.height(lineSpace))
-                    Text(
-                        text = "Started on : ${movie.startDate}",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Normal
+                    TextView(
+                        text = UiText.PlainString("Started on : ${movie.startDate}"),
+                        textStyle = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 10.sp
                     )
                     Spacer(modifier = Modifier.height(lineSpace))
-                    Text(
-                        text = movie.status,
-                        style = MaterialTheme.typography.labelSmall,
+                    TextView(
+                        text = UiText.PlainString(movie.status),
+                        textStyle = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Light,
-                        color = movieCardStatusColor(isDarkMode)
+                        fontColor = movieCardStatusColor(isDarkMode),
+                        fontSize = 10.sp
                     )
                 }
             }
         }
 
-        AsyncImage(
-            model = movie.imageThumbnailPath,
-            contentScale = ContentScale.FillBounds,
-            contentDescription = movie.name,
-            modifier = Modifier
-                .width(90.dp)
-                .height(115.dp)
-                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                .clip(RoundedCornerShape(cardRadios)),
-        )
+        Box {
+            AsyncImage(
+                model = movie.imageThumbnailPath,
+                contentScale = ContentScale.FillBounds,
+                contentDescription = movie.name,
+                modifier = Modifier
+                    .width(90.dp)
+                    .height(115.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                    .clip(RoundedCornerShape(cardRadios)),
+            )
+
+            IconWithDrawable(
+                icon = UiImage.DrawableResource(
+                    if(movie.isFavourite) R.drawable.ic_favorite_active else R.drawable.ic_favorite_inactive
+                ),
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .size(MaterialTheme.spacing.large)
+            )
+        }
     }
 }
 

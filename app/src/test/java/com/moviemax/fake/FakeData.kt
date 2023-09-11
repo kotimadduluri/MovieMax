@@ -81,5 +81,5 @@ fun getMovieResponseTest() = fakeTvShowResponse
 fun getMovieDetailsResponseTest(movieId: Int) =
     MovieDetailsResponse(getFakeMovieTest(movieId))
 
-fun getMovieDetailsResponseTestWithError(movieId: Int) =
+fun getMovieDetailsResponseTestWithError() =
     MovieDetailsResponse(tvShow = null)

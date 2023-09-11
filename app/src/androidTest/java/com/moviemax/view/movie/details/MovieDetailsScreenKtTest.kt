@@ -7,19 +7,21 @@ import com.moviemax.common.BaseUITest
 import com.moviemax.di.AppModule
 import com.moviemax.di.TestCommonTestModule
 import com.moviemax.di.TestMovieDetailsModule
+import com.moviemax.di.mockNoNetwork
 import com.moviemax.fake.movieId
 import com.moviemax.model.movie.getFakeMovie
-import com.moviemax.ui.theme.MovieMaxTheme
+import com.common.ui.theme.MovieMaxTheme
 import com.moviemax.util.asserMovieDetailsCheck
 import com.moviemax.util.asserMovieDetailsDownloadCheck
 import com.moviemax.util.asserMovieDetailsPlayCheck
 import com.moviemax.util.asserMovieDetailsScrollCheck
-import com.moviemax.util.assertBackPress
 import com.moviemax.util.assertMovieDetailsCheck
-import com.moviemax.viewmodel.MovieDetailsScreenViewModel
+import com.moviemax.util.assertNoNetworkCheck
+import com.moviemax.viewmodel.movie.MovieDetailsScreenViewModel
 import org.junit.Before
 import org.junit.Test
 import org.koin.androidx.compose.koinViewModel
+import org.koin.test.mock.declare
 
 class MovieDetailsScreenKtTest : BaseUITest(
     listOf(AppModule, TestCommonTestModule, TestMovieDetailsModule)
@@ -68,9 +70,12 @@ class MovieDetailsScreenKtTest : BaseUITest(
     }
 
     @Test
-    fun whenDetails_loaded_perform_back_click() {
-        composeTestRule.asserMovieDetailsScrollCheck()
-        composeTestRule.assertBackPress()
+    fun MovieMaxApp_no_internet_on_movies_screen() {
+        with(composeTestRule) {
+            declare {
+                mockNoNetwork()
+            }
+            assertNoNetworkCheck()
+        }
     }
-
 }
