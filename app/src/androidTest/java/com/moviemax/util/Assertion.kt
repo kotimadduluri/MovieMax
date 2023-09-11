@@ -14,9 +14,34 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeUp
 import androidx.test.espresso.Espresso
+import com.moviemax.fake.FAKE_NETWORK_ERROR
 import com.moviemax.model.movie.data.domain.model.Movie
 
+//error states
+fun SemanticsNodeInteractionsProvider.assertNoNetworkCheck(){
+    onNodeWithTag("ActionStateView").assertExists()
+    onNodeWithText(FAKE_NETWORK_ERROR).assertExists()
+}
+
+fun SemanticsNodeInteractionsProvider.assertNoNetworkWithRetryButtonCheck(){
+    onNodeWithTag("ActionStateView").assertExists()
+    onNodeWithText(FAKE_NETWORK_ERROR).assertExists()
+    onNodeWithText("Retry").assertExists()
+}
+
+fun SemanticsNodeInteractionsProvider.assertNoNetworkWithRetryButtonClickCheck(){
+    onNodeWithTag("ActionStateView").assertExists()
+    onNodeWithText(FAKE_NETWORK_ERROR).assertExists()
+    onNodeWithText("Retry").assertExists()
+    onNodeWithText("Retry").performClick()
+}
+
 //List screen
+
+fun SemanticsNodeInteractionsProvider.assertMovieListScreenWithData(){
+    onNodeWithTag("MoviesList").assertExists()  //list view available
+}
+
 fun SemanticsNodeInteractionsProvider.assertMovieListScrollBottom(movie:Movie){
     onNodeWithTag("MoviesList").assertExists()  //list view available
 
@@ -38,7 +63,6 @@ fun SemanticsNodeInteractionsProvider.assertMovieListScrollTop(movie:Movie){
 fun SemanticsNodeInteractionsProvider.assertBackPress(){
     Espresso.pressBack()
 }
-
 fun SemanticsNodeInteractionsProvider.assertMovieListItemClickCheck(movies:List<Movie>){
     val movie = movies.last()
     onNodeWithTag("MoviesList").assertExists()  //list view available

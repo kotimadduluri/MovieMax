@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val TestCommonTestModule = module {
     single<NetworkReader> {
-        NetworkReader { true }
+        mockWithNetwork()
     }
 
     singleOf(::FakeMoviesApi) bind MovieApi::class
@@ -33,5 +33,8 @@ val TestMovieDetailsModule = module {
     singleOf(::GetMovieDetailsUseCase)
     viewModelOf(::MovieDetailsScreenViewModel)
 }
+
+fun mockNoNetwork():NetworkReader=NetworkReader { false }
+fun mockWithNetwork():NetworkReader=NetworkReader { true }
 
 

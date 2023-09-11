@@ -1,8 +1,8 @@
 package com.moviemax.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.moviemax.R
-import com.moviemax.UiText
+import com.common.R
+import com.common.util.UiText
 import com.moviemax.common.BaseViewModel
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.data.domain.model.Movie

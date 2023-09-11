@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.moviemax.view.movie.list.MoviesScreen
 import com.moviemax.viewmodel.MoviesScreenViewModel
-import com.moviemax.ui.theme.MovieMaxTheme
+import com.common.ui.theme.MovieMaxTheme
 import com.moviemax.view.movie.Destination
 import com.moviemax.view.movie.details.MovieDetailsScreen
 import com.moviemax.viewmodel.MovieDetailsScreenViewModel

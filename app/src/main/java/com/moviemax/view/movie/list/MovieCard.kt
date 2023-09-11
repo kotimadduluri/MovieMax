@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.getFakeMovies
-import com.moviemax.ui.theme.GetColors.movieCardNetworkColor
-import com.moviemax.ui.theme.GetColors.movieCardStatusColor
+import com.common.ui.theme.GetColors.movieCardNetworkColor
+import com.common.ui.theme.GetColors.movieCardStatusColor
 
 @Composable
 fun MovieCard(

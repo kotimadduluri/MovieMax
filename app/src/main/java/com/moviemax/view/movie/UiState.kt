@@ -1,6 +1,6 @@
 package com.moviemax.view.movie
 
-import com.moviemax.UiText
+import com.common.util.UiText
 
 sealed class UiState {
     object None : UiState()

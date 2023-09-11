@@ -1,7 +1,7 @@
 package com.moviemax.model.movie.repository
 
-import com.moviemax.R
-import com.moviemax.UiText
+import com.common.R
+import com.common.util.UiText
 import com.moviemax.model.Resource
 import com.moviemax.model.movie.MovieApi
 import com.network.reader.NetworkReader

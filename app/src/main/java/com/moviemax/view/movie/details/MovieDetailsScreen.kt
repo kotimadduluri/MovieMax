@@ -25,15 +25,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.common.R
+import com.common.util.UiText
 import com.moviemax.model.movie.data.domain.model.Movie
-import com.moviemax.ui.components.button.ButtonWithProgressBar
-import com.moviemax.ui.components.common.AppContainer
-import com.moviemax.ui.components.common.DefaultNavigationIcon
-import com.moviemax.ui.components.slider.ImageSlider
-import com.moviemax.ui.components.state.ActionState
-import com.moviemax.ui.components.state.ActionStateView
-import com.moviemax.ui.components.state.ActionStateViewCard
-import com.moviemax.ui.theme.GetColors
+import com.common.ui.components.button.ButtonWithProgressBar
+import com.common.ui.components.AppContainer
+import com.common.ui.components.actionbar.DefaultNavigationIcon
+import com.common.ui.components.slider.ImageSlider
+import com.common.ui.components.state.ActionState
+import com.common.ui.components.state.ActionStateView
+import com.common.ui.components.state.ActionStateViewCard
+import com.common.ui.components.text.TextView
+import com.common.ui.theme.GetColors
 import com.moviemax.view.movie.UiState
 import com.moviemax.viewmodel.MovieDetailsScreenIntent
 
@@ -66,9 +69,7 @@ fun MovieDetailsScreen(
             when (uiState.value) {
                 is UiState.Loading -> {
                     ActionStateViewCard(
-                        action = ActionState.LOADING(
-                            message = "Looking for content"
-                        )
+                        action = ActionState.LOADING()
                     )
                 }
 
@@ -80,8 +81,8 @@ fun MovieDetailsScreen(
                 is UiState.Error -> {
                     ActionStateView(
                         action = ActionState.ERROR(
-                            message = (uiState.value as UiState.Error).message.asString()
-                                ?: "Something went wrong"
+                            message = (uiState.value as UiState.Error).message
+                                ?: UiText.StringResource(R.string.error_something_went_wrong)
                         ),
                         isActionRequired = true
                     ) {
@@ -144,12 +145,14 @@ fun MovieDetailsSection(movie: Movie) {
 
                 Spacer(modifier = Modifier.size(10.dp))
 
-                ButtonWithProgressBar(text = "Play")
-                ButtonWithProgressBar(text = "Download")
+                ButtonWithProgressBar(UiText.StringResource(com.moviemax.R.string.play))
+                ButtonWithProgressBar(UiText.StringResource(com.moviemax.R.string.download))
 
                 Spacer(modifier = Modifier.size(10.dp))
 
-                Text(text = description ?: "No description available")
+                TextView(
+                    text = UiText.PlainString(description ?: "No description available")
+                )
 
             }
         }

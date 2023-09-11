@@ -2,7 +2,7 @@ package com.moviemax.viewmodel
 
 import androidx.lifecycle.asLiveData
 import com.google.common.truth.Truth
-import com.moviemax.UiText
+import com.common.util.UiText
 import com.moviemax.common.BaseTest
 import com.moviemax.fake.FakeMovieRepository
 import com.moviemax.fake.getMovieDetailsResponseTestWithError
@@ -168,7 +168,7 @@ class MovieDetailsScreenViewModelTest : BaseTest() {
     fun `getMovieDetails() api success but return empty data`() = runTest {
         //Given
         val fakeData =
-            Resource.Success<MovieDetailsResponse>(getMovieDetailsResponseTestWithError(movieId))
+            Resource.Success<MovieDetailsResponse>(getMovieDetailsResponseTestWithError())
         coEvery { movieDetailsUseCase(movieId) } returns fakeData
 
         val states = observeStates()

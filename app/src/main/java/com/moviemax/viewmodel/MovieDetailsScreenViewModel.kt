@@ -2,9 +2,10 @@ package com.moviemax.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.moviemax.R
-import com.moviemax.UiText
+import com.common.util.UiText
 import com.moviemax.common.BaseViewModel
 import com.moviemax.model.Resource
+import com.moviemax.model.asSuccess
 import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import com.moviemax.model.movie.data.toMovie
 import com.moviemax.model.movie.usecase.GetMovieDetailsUseCase
@@ -32,10 +33,10 @@ class MovieDetailsScreenViewModel(
         viewModelScope.launch {
             val networkResponse = movieDetailsUseCase(movieId)
             if (networkResponse is Resource.Success<*>) {
-                val response = networkResponse as Resource.Success<MovieDetailsResponse>
+                val response = networkResponse.asSuccess<MovieDetailsResponse>()
                 uiState.value = response.data?.tvShow?.toMovie()?.let { movie ->
                         UiState.Success(movie)
-                    } ?: UiState.Error(UiText.StringResource(R.string.error_details_not_found))
+                    } ?: UiState.Error(UiText.StringResource(com.common.R.string.error_details_not_found))
             } else {
                 uiState.value = UiState.Error(networkResponse.message)
             }
