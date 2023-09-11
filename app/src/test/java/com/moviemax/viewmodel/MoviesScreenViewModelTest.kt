@@ -11,10 +11,10 @@ import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.getFakeMovie
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
-import com.moviemax.view.movie.Destination
+import com.moviemax.view.movie.MovieModule
 import com.moviemax.view.movie.UiState
-import com.moviemax.view.movie.UiState.Loading.asError
-import com.moviemax.view.movie.UiState.Loading.asSuccess
+import com.moviemax.viewmodel.movie.MoviesScreenIntent
+import com.moviemax.viewmodel.movie.MoviesScreenViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -147,11 +147,11 @@ class MoviesScreenViewModelTest : BaseTest() {
     fun `ViewDetails() should route to details screen`() = runTest {
         //Given
         val movie = getFakeMovie(movieId)!!
-        val fakeRouter=Destination.Details.createRoute(movieId)
+        val fakeRouter=MovieModule.Details.createRoute(movieId)
 
         //When
         var resultRouter:String? = null
-        viewModel.onAction(MoviesScreenIntent.ViewDetails(movie)){router->
+        viewModel.onAction(MoviesScreenIntent.ViewDetails(movie)){ router->
             resultRouter = router
         }
 

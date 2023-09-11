@@ -14,8 +14,8 @@ import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import com.moviemax.model.movie.data.toMovie
 import com.moviemax.model.movie.usecase.GetMovieDetailsUseCase
 import com.moviemax.view.movie.UiState
-import com.moviemax.view.movie.UiState.Loading.asError
-import com.moviemax.view.movie.UiState.Loading.asSuccess
+import com.moviemax.viewmodel.movie.MovieDetailsScreenIntent
+import com.moviemax.viewmodel.movie.MovieDetailsScreenViewModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

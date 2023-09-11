@@ -1,24 +1,19 @@
 package com.moviemax.view.movie.list
 
 import androidx.activity.compose.setContent
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moviemax.common.BaseUITest
 import com.moviemax.di.AppModule
 import com.moviemax.di.TestCommonTestModule
 import com.moviemax.di.TestMoviesListModule
 import com.moviemax.di.mockNoNetwork
-import com.moviemax.di.mockWithNetwork
 import com.moviemax.fake.getFakeMoviesTest
 import com.moviemax.model.movie.data.toMovie
 import com.common.ui.theme.MovieMaxTheme
 import com.moviemax.util.assertMovieListItemClickCheck
 import com.moviemax.util.assertMovieListScrollBottom
 import com.moviemax.util.assertNoNetworkCheck
-import com.moviemax.util.assertNoNetworkWithRetryButtonCheck
-import com.moviemax.util.assertNoNetworkWithRetryButtonClickCheck
-import com.moviemax.viewmodel.MoviesScreenViewModel
+import com.moviemax.viewmodel.movie.MoviesScreenViewModel
 import org.junit.Before
 
 import org.junit.Test

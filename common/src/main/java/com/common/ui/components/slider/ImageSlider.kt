@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.common.ui.theme.spacing
 
 @Composable
 fun ImageSlider(images: List<String>) {
@@ -69,7 +70,7 @@ fun ImageSlider(images: List<String>) {
                                     .background(indicatorColor)
                                     .padding(5.dp)
                             )
-                            Spacer(modifier = Modifier.size(2.dp))
+                            Spacer(modifier = Modifier.size(MaterialTheme.spacing.extraSmall))
                         }
                     }
                 }

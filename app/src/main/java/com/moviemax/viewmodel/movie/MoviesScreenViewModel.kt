@@ -1,4 +1,4 @@
-package com.moviemax.viewmodel
+package com.moviemax.viewmodel.movie
 
 import androidx.lifecycle.viewModelScope
 import com.common.R
@@ -9,7 +9,7 @@ import com.moviemax.model.movie.data.domain.model.Movie
 import com.moviemax.model.movie.data.getMovies
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
-import com.moviemax.view.movie.Destination
+import com.moviemax.view.movie.MovieModule
 import com.moviemax.view.movie.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class MoviesScreenViewModel(
         onAction(MoviesScreenIntent.GetMovies(currentPage.value))
     }
 
-    fun onAction(intent: MoviesScreenIntent,navigate:(route:String)->Unit ={}) {
+    fun onAction(intent: MoviesScreenIntent, navigate:(route:String)->Unit ={}) {
         when (intent) {
             is MoviesScreenIntent.Refresh -> {
                 getMovies(1) //to start from page 1
@@ -35,7 +35,7 @@ class MoviesScreenViewModel(
             }
 
             is MoviesScreenIntent.ViewDetails ->{
-                navigate(Destination.Details.createRoute(intent.movie.id))
+                navigate(MovieModule.Details.createRoute(intent.movie.id))
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.common.R
 import com.common.ui.components.text.TextView
 import com.common.ui.components.card.CardView
+import com.common.ui.theme.spacing
 import com.common.util.UiImage
 
 @Composable
@@ -62,7 +64,7 @@ fun ActionStateViewCard(
                 text = action.message
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.size(MaterialTheme.spacing.medium))
 
             if (isActionRequired) {
                 Image(

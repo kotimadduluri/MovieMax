@@ -21,9 +21,7 @@ import com.common.ui.components.state.ActionStateView
 import com.common.ui.components.state.ActionStateViewCard
 import com.moviemax.R
 import com.moviemax.view.movie.UiState
-import com.moviemax.view.movie.UiState.None.asError
-import com.moviemax.view.movie.UiState.None.asSuccess
-import com.moviemax.viewmodel.MoviesScreenIntent
+import com.moviemax.viewmodel.movie.MoviesScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

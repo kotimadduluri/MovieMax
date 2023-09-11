@@ -1,7 +1,6 @@
-package com.moviemax.viewmodel
+package com.moviemax.viewmodel.movie
 
 import androidx.lifecycle.viewModelScope
-import com.moviemax.R
 import com.common.util.UiText
 import com.moviemax.common.BaseViewModel
 import com.moviemax.model.Resource

@@ -5,6 +5,8 @@
     <string name="play">Play</string>
     <string name="download">Download</string>
     <string name="movies">Movies</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
 
     <!--endregion movies-->
 

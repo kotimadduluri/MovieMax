@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.common.ui.components.button.SimpleButton
 import com.common.ui.components.text.TextView
+import com.common.ui.theme.spacing
 
 @Composable
 fun ActionStateView(
@@ -39,7 +40,7 @@ fun ActionStateView(
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(120.dp)
         )
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(MaterialTheme.spacing.small))
 
         TextView(
             text = action.message,
@@ -48,7 +49,8 @@ fun ActionStateView(
             textStyle = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onError)
         )
 
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer(modifier = Modifier.size(MaterialTheme.spacing.small))
+
         if (isActionRequired) {
             SimpleButton(action.title) {
                 block()

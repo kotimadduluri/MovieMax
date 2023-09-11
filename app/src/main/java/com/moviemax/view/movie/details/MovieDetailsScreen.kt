@@ -14,14 +14,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -31,14 +31,18 @@ import com.moviemax.model.movie.data.domain.model.Movie
 import com.common.ui.components.button.ButtonWithProgressBar
 import com.common.ui.components.AppContainer
 import com.common.ui.components.actionbar.DefaultNavigationIcon
+import com.common.ui.components.icon.IconWithDrawable
 import com.common.ui.components.slider.ImageSlider
 import com.common.ui.components.state.ActionState
 import com.common.ui.components.state.ActionStateView
 import com.common.ui.components.state.ActionStateViewCard
 import com.common.ui.components.text.TextView
+import com.common.ui.components.text.TitleTextView
 import com.common.ui.theme.GetColors
+import com.common.ui.theme.spacing
+import com.common.util.UiImage
 import com.moviemax.view.movie.UiState
-import com.moviemax.viewmodel.MovieDetailsScreenIntent
+import com.moviemax.viewmodel.movie.MovieDetailsScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +52,11 @@ fun MovieDetailsScreen(
     navHostController: NavHostController,
     event: (intent: MovieDetailsScreenIntent) -> Unit
 ) {
+
+    val isFavourite = remember {
+        mutableStateOf(false)
+    }
+
     LaunchedEffect(Unit) {
         event(MovieDetailsScreenIntent.GetDetails(movieId))
     }
@@ -56,6 +65,17 @@ fun MovieDetailsScreen(
         navigation = {
             DefaultNavigationIcon {
                 navHostController.popBackStack()
+            }
+        },
+        toolbarActions = {
+            IconWithDrawable(
+                icon = UiImage.DrawableResource(
+                    if (isFavourite.value) {
+                        R.drawable.ic_favorite_active
+                    } else R.drawable.ic_favorite_inactive
+                )
+            ) {
+                isFavourite.value = !isFavourite.value
             }
         }
     ) {
@@ -115,43 +135,47 @@ fun MovieDetailsSection(movie: Movie) {
                     ImageSlider(it)
                 }
 
-                Spacer(modifier = Modifier.size(10.dp))
+                Spacer(modifier = Modifier.size(MaterialTheme.spacing.small))
 
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onBackground
+                TitleTextView(
+                    text = UiText.PlainString(name),
+                    textStyle = MaterialTheme.typography.titleLarge,
+                    fontColor = MaterialTheme.colorScheme.onBackground
                 )
 
-
                 Row {
-                    Text(
-                        text = "Rating : $rating ($ratingCount) | ",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontSize = 8.sp
+                    TextView(
+                        text = UiText.PlainString("Rating : $rating ($ratingCount) | "),
+                        textStyle = MaterialTheme.typography.labelSmall,
+                        fontSize = 10.sp
                     )
 
-                    Text(
-                        text = movie.status,
-                        style = MaterialTheme.typography.labelSmall,
+                    TextView(
+                        text = UiText.PlainString(movie.status),
+                        textStyle = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Light,
-                        color = GetColors.movieCardStatusColor(isSystemInDarkTheme()),
-                        fontSize = 8.sp
+                        fontColor = GetColors.movieCardStatusColor(isSystemInDarkTheme()),
+                        fontSize = 10.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.size(10.dp))
+                Spacer(modifier = Modifier.size(MaterialTheme.spacing.small))
 
-                ButtonWithProgressBar(UiText.StringResource(com.moviemax.R.string.play))
-                ButtonWithProgressBar(UiText.StringResource(com.moviemax.R.string.download))
+                ButtonWithProgressBar(
+                    text = UiText.StringResource(com.moviemax.R.string.play)
+                )
 
-                Spacer(modifier = Modifier.size(10.dp))
+                Spacer(modifier = Modifier.size(MaterialTheme.spacing.extraSmall))
+
+                ButtonWithProgressBar(
+                    text = UiText.StringResource(com.moviemax.R.string.download)
+                )
+
+                Spacer(modifier = Modifier.size(MaterialTheme.spacing.small))
 
                 TextView(
-                    text = UiText.PlainString(description ?: "No description available")
+                    text = UiText.PlainString(description ?: "No description available"),
+                    fontWeight = FontWeight.Normal
                 )
 
             }

@@ -17,7 +17,7 @@ import com.moviemax.util.asserMovieDetailsPlayCheck
 import com.moviemax.util.asserMovieDetailsScrollCheck
 import com.moviemax.util.assertMovieDetailsCheck
 import com.moviemax.util.assertNoNetworkCheck
-import com.moviemax.viewmodel.MovieDetailsScreenViewModel
+import com.moviemax.viewmodel.movie.MovieDetailsScreenViewModel
 import org.junit.Before
 import org.junit.Test
 import org.koin.androidx.compose.koinViewModel
