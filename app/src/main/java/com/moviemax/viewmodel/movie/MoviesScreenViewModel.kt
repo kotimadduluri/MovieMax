@@ -10,7 +10,7 @@ import com.moviemax.model.movie.data.getMovies
 import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
 import com.moviemax.view.movie.MovieModule
-import com.moviemax.view.movie.UiState
+import com.moviemax.view.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -64,5 +64,5 @@ class MoviesScreenViewModel(
 sealed class MoviesScreenIntent {
     data class GetMovies(val page: Int) : MoviesScreenIntent()
     data class ViewDetails(val movie: Movie) : MoviesScreenIntent()
-    object Refresh : MoviesScreenIntent()
+    data object Refresh : MoviesScreenIntent()
 }

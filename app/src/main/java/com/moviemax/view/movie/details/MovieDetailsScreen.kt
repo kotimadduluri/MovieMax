@@ -41,7 +41,7 @@ import com.common.ui.components.text.TitleTextView
 import com.common.ui.theme.GetColors
 import com.common.ui.theme.spacing
 import com.common.util.UiImage
-import com.moviemax.view.movie.UiState
+import com.moviemax.view.UiState
 import com.moviemax.viewmodel.movie.MovieDetailsScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)

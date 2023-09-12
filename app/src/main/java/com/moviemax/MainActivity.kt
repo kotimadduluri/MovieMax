@@ -18,10 +18,14 @@ import com.moviemax.view.auth.LoginScreen
 import com.moviemax.view.auth.RegistrationScreen
 import com.moviemax.view.movie.MovieModule
 import com.moviemax.view.movie.details.MovieDetailsScreen
+import com.moviemax.viewmodel.auth.AuthViewModel
+import com.moviemax.viewmodel.auth.AuthViewModelIntent
 import com.moviemax.viewmodel.movie.MovieDetailsScreenViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -29,26 +33,56 @@ class MainActivity : ComponentActivity() {
                 val navControl = rememberNavController()
                 NavHost(
                     navController = navControl,
-                    startDestination = MovieModule.ModuleName
+                    startDestination = AuthModule.ModuleName
                 ) {
 
                     navigation(
                         startDestination = AuthModule.Login.route,
                         AuthModule.ModuleName
-                    ){
-                        composable(AuthModule.Login.route){
-                            LoginScreen{
-                                navControl.navigate(MovieModule.List.route)
+                    ) {
+                        composable(AuthModule.Login.route) {
+                            val viewModel: AuthViewModel by lazy {
+                                getViewModel()
+                            }
+                            val state = viewModel.uiState().collectAsStateWithLifecycle()
+                            val newUser = viewModel.registrationStatus.collectAsStateWithLifecycle()
+                            LoginScreen(
+                                state,
+                                { route ->
+                                    navControl.navigate(route) {
+                                        popUpTo(MovieModule.ModuleName) {
+                                            inclusive = true
+                                        }
+                                    }
+                                },
+                                navControl,
+                                newUser
+                            ) { intent ->
+                                viewModel.onAction(intent)
                             }
                         }
 
-                        composable(AuthModule.Registration.route){
-                            RegistrationScreen{
-                                navControl.navigate(MovieModule.List.route)
+                        composable(AuthModule.Registration.route) {
+                            val viewModel: AuthViewModel by lazy {
+                                getViewModel()
+                            }
+                            val state = viewModel.uiState().collectAsStateWithLifecycle()
+                            RegistrationScreen(
+                                state, {
+                                    viewModel.onAction(AuthViewModelIntent.Reset)
+                                    navControl.navigate(AuthModule.ModuleName) {
+                                        popUpTo(AuthModule.ModuleName) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
+                            ) { intent ->
+                                viewModel.onAction(intent)
                             }
                         }
 
                     }
+
                     navigation(
                         startDestination = MovieModule.List.route,
                         MovieModule.ModuleName

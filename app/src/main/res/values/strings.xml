@@ -7,7 +7,16 @@
     <string name="movies">Movies</string>
     <string name="login">Login</string>
     <string name="registration">Registration</string>
-
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="forgotPassword">Forgot password?</string>
+    <string name="fail_to_register_user">Unable to complete you request now.</string>
+    <string name="registration_validation_error">Given details are not meeting the requirement. Each length must be more than 3</string>
+    <string name="user_details_exist">Email already in our records. Try with new email.</string>
+    <string name="user_records_not_available">Invalid credentials.</string>
+    <string name="signup">Sign Up</string>
+    <string name="signup_here">Sign up here</string>
+    <string name="name">Name</string>
     <!--endregion movies-->
 
 </resources>

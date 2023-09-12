@@ -1,8 +1,9 @@
 package com.moviemax.extentions
 
 import android.content.Context
-import com.common.di.CommonModule
-import com.moviemax.di.AppModule
+import com.moviemax.di.DI_AppModule
+import com.moviemax.di.DI_AuthModule
+import com.moviemax.di.DI_MovieModule
 import com.network.di.NetworkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -15,8 +16,9 @@ fun initKoin(context: Context){
     startKoin {
         androidContext(context)
         modules(listOf(
-            AppModule,
-            CommonModule,
+            DI_AppModule,
+            DI_MovieModule,
+            DI_AuthModule,
             NetworkModule
         ))
     }

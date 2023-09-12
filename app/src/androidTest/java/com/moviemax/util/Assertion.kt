@@ -5,12 +5,15 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeUp
 import androidx.test.espresso.Espresso
@@ -18,6 +21,17 @@ import com.moviemax.fake.FAKE_NETWORK_ERROR
 import com.moviemax.model.movie.data.domain.model.Movie
 
 //error states
+fun SemanticsNodeInteractionsProvider.performLogin(){
+    onRoot().printToLog("Login")
+    onNodeWithText("Email").assertExists()
+    onNodeWithText("Email").performTextInput("test@email.com")
+    onNodeWithText("Password").assertExists()
+    onNodeWithText("Password").performTextInput("Test@123")
+    onAllNodesWithText("Login")[1].assertExists()
+    onAllNodesWithText("Login")[1].performClick()
+    onNodeWithTag("MoviesList").assertExists()
+}
+
 fun SemanticsNodeInteractionsProvider.assertNoNetworkCheck(){
     onNodeWithTag("ActionStateView").assertExists()
     onNodeWithText(FAKE_NETWORK_ERROR).assertExists()
@@ -41,6 +55,8 @@ fun SemanticsNodeInteractionsProvider.assertNoNetworkWithRetryButtonClickCheck()
 fun SemanticsNodeInteractionsProvider.assertMovieListScreenWithData(){
     onNodeWithTag("MoviesList").assertExists()  //list view available
 }
+
+
 
 fun SemanticsNodeInteractionsProvider.assertMovieListScrollBottom(movie:Movie){
     onNodeWithTag("MoviesList").assertExists()  //list view available

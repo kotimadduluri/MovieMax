@@ -1,7 +1,10 @@
 package com.moviemax
 
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.hasTestTag
 import com.moviemax.common.BaseUITest
-import com.moviemax.di.AppModule
+import com.moviemax.di.DI_AppModule
+import com.moviemax.di.TestAuthModule
 import com.moviemax.di.TestCommonTestModule
 import com.moviemax.di.TestMovieDetailsModule
 import com.moviemax.di.TestMoviesListModule
@@ -15,15 +18,18 @@ import com.moviemax.util.assertMovieDetailsCheck
 import com.moviemax.util.assertMovieListItemClickCheck
 import com.moviemax.util.assertMovieListScrollBottom
 import com.moviemax.util.assertMovieListScrollTop
-import com.moviemax.util.assertNoNetworkCheck
-import com.moviemax.util.assertNoNetworkWithRetryButtonCheck
-import com.moviemax.util.assertNoNetworkWithRetryButtonClickCheck
+import com.moviemax.util.performLogin
 
 import org.junit.Test
-import org.koin.test.mock.declare
 
+@OptIn(ExperimentalTestApi::class)
 class MainActivityTest : BaseUITest(
-    listOf(AppModule, TestCommonTestModule, TestMoviesListModule, TestMovieDetailsModule)
+    listOf(DI_AppModule,
+        TestCommonTestModule,
+        TestMoviesListModule,
+        TestMovieDetailsModule,
+        TestAuthModule
+    )
 ) {
 
     private val fakeMovies = getFakeMoviesTest().map {
@@ -32,8 +38,18 @@ class MainActivityTest : BaseUITest(
 
 
     @Test
+    fun MovieMaxApp_login_check() {
+        with(composeTestRule) {
+            performLogin()
+        }
+    }
+
+
+    @Test
     fun MovieMaxApp_loaded_with_list_of_movies_and_scroll_check() {
         with(composeTestRule) {
+            performLogin()
+
             assertMovieListScrollBottom(fakeMovies.last())
         }
     }
@@ -41,6 +57,8 @@ class MainActivityTest : BaseUITest(
     @Test
     fun MovieMaxApp_loaded_with_list_of_movies_and_click_on_last_item() {
         with(composeTestRule) {
+            performLogin()
+
             assertMovieListItemClickCheck(fakeMovies)
             assertMovieDetailsCheck(fakeMovies.last())
             asserMovieDetailsScrollCheck()
@@ -50,6 +68,9 @@ class MainActivityTest : BaseUITest(
     @Test
     fun MovieMaxApp_loaded_movies_and_click_on_item_snd_verify_data_and_come_back() {
         with(composeTestRule) {
+            performLogin()
+            waitUntilAtLeastOneExists(hasTestTag("MoviesList"),2500)
+
             assertMovieListItemClickCheck(fakeMovies)
             assertMovieDetailsCheck(fakeMovies.last())
             asserMovieDetailsScrollCheck()
@@ -61,6 +82,8 @@ class MainActivityTest : BaseUITest(
     @Test
     fun MovieMaxApp_loaded_with_list_of_movies_and_play_selected_content() {
         with(composeTestRule) {
+            performLogin()
+
             assertMovieListItemClickCheck(fakeMovies)
             assertMovieDetailsCheck(fakeMovies.last())
             asserMovieDetailsPlayCheck(fakeMovies.last())
@@ -70,6 +93,8 @@ class MainActivityTest : BaseUITest(
     @Test
     fun MovieMaxApp_loaded_with_list_of_movies_and_download_content() {
         with(composeTestRule) {
+            performLogin()
+
             assertMovieListItemClickCheck(fakeMovies)
             assertMovieDetailsCheck(fakeMovies.last())
             asserMovieDetailsDownloadCheck()

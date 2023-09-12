@@ -8,7 +8,7 @@ import com.moviemax.model.asSuccess
 import com.moviemax.model.movie.data.remote.model.MovieDetailsResponse
 import com.moviemax.model.movie.data.toMovie
 import com.moviemax.model.movie.usecase.GetMovieDetailsUseCase
-import com.moviemax.view.movie.UiState
+import com.moviemax.view.UiState
 import kotlinx.coroutines.launch
 
 class MovieDetailsScreenViewModel(
