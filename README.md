@@ -31,17 +31,22 @@ For normal development use the `prodRelease` variant.
 
 # TechStack you must know
 [JetPack Compose](https://insert-koin.io/docs/setup/koin) For designing
+
 [Meterial](https://m3.material.io/) MDS
-[ViewModel](https://developer.android.com/reference/androidx/lifecycle/ViewModel). MVVM
-[Koin](https://insert-koin.io/docs/setup/koin) For Dependency 
+
+[ViewModel](https://developer.android.com/reference/androidx/lifecycle/ViewModel) MVVM
+
+[Koin](https://insert-koin.io/docs/setup/koin) For Dependency injection
+
 [Retrofit](https://square.github.io/retrofit/) For network calls
+
 [Coil](https://square.github.io/retrofit/) For network images
 
 
 
 # Testing
 
-To facilitate testing of components, **MovieMax** uses dependency injection Koin
+To facilitate testing of components, **MovieMax** uses dependency injection
 [Koin](https://insert-koin.io/docs/setup/koin).
 
 Most data layer components are defined as interfaces.
