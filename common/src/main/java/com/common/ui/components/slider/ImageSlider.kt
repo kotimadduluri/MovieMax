@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,6 +24,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.common.ui.components.list.HorizontalList
 import com.common.ui.theme.spacing
 
 @Composable
@@ -33,45 +32,44 @@ fun ImageSlider(images: List<String>) {
     val configuration = LocalConfiguration.current
     val imageWidth = configuration.screenWidthDp.dp
     val imageHeight = configuration.screenHeightDp.dp / 2
-    LazyRow(
+    HorizontalList(
+        data = images,
         modifier = Modifier
             .fillMaxWidth()
             .testTag("ImageSlider")
-    ) {
-        itemsIndexed(images) { index, imageUrl ->
-            Column(modifier = Modifier.fillMaxSize()) {
-                Box(
+    ) { index, imageUrl ->
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .width(imageWidth)
+                    .height(imageHeight)
+                    .padding(end = 16.dp)
+                    .testTag("picture $index")
+            ) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Movie Image $index",
+                    modifier = Modifier.matchParentSize(),
+                    contentScale = ContentScale.FillBounds,
+                )
+                Row(
                     modifier = Modifier
-                        .width(imageWidth)
-                        .height(imageHeight)
-                        .padding(end = 16.dp)
-                        .testTag("picture $index")
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp)
+                        .padding(4.dp),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    AsyncImage(
-                        model = imageUrl,
-                        contentDescription = "Movie Image $index",
-                        modifier = Modifier.matchParentSize(),
-                        contentScale = ContentScale.FillBounds,
-                    )
-                    Row(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 8.dp)
-                            .padding(4.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        images.forEachIndexed { innerIndex, _ ->
-                            val indicatorColor =
-                                if (index == innerIndex) MaterialTheme.colorScheme.secondary else Color.Gray
-                            Box(
-                                modifier = Modifier
-                                    .size(10.dp)
-                                    .clip(CircleShape)
-                                    .background(indicatorColor)
-                                    .padding(5.dp)
-                            )
-                            Spacer(modifier = Modifier.size(MaterialTheme.spacing.extraSmall))
-                        }
+                    images.forEachIndexed { innerIndex, _ ->
+                        val indicatorColor =
+                            if (index == innerIndex) MaterialTheme.colorScheme.secondary else Color.Gray
+                        Box(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .clip(CircleShape)
+                                .background(indicatorColor)
+                                .padding(5.dp)
+                        )
+                        Spacer(modifier = Modifier.size(MaterialTheme.spacing.extraSmall))
                     }
                 }
             }

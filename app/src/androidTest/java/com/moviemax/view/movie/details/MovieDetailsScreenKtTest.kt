@@ -4,7 +4,7 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.moviemax.common.BaseUITest
-import com.moviemax.di.AppModule
+import com.moviemax.di.DI_AppModule
 import com.moviemax.di.TestCommonTestModule
 import com.moviemax.di.TestMovieDetailsModule
 import com.moviemax.di.mockNoNetwork
@@ -24,7 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.test.mock.declare
 
 class MovieDetailsScreenKtTest : BaseUITest(
-    listOf(AppModule, TestCommonTestModule, TestMovieDetailsModule)
+    listOf(DI_AppModule, TestCommonTestModule, TestMovieDetailsModule)
 ) {
 
     private val fakeMovie = getFakeMovie(movieId)

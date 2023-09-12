@@ -12,7 +12,7 @@ import com.moviemax.model.movie.data.remote.model.MoviesResponse
 import com.moviemax.model.movie.getFakeMovie
 import com.moviemax.model.movie.usecase.GetMoviesUseCase
 import com.moviemax.view.movie.MovieModule
-import com.moviemax.view.movie.UiState
+import com.moviemax.view.UiState
 import com.moviemax.viewmodel.movie.MoviesScreenIntent
 import com.moviemax.viewmodel.movie.MoviesScreenViewModel
 import io.mockk.coEvery

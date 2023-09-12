@@ -3,7 +3,7 @@ package com.moviemax.view.movie.list
 import androidx.activity.compose.setContent
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moviemax.common.BaseUITest
-import com.moviemax.di.AppModule
+import com.moviemax.di.DI_AppModule
 import com.moviemax.di.TestCommonTestModule
 import com.moviemax.di.TestMoviesListModule
 import com.moviemax.di.mockNoNetwork
@@ -21,7 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.test.mock.declare
 
 class MoviesScreenKtTest : BaseUITest(
-    listOf(AppModule, TestCommonTestModule, TestMoviesListModule)
+    listOf(DI_AppModule, TestCommonTestModule, TestMoviesListModule)
 ) {
 
     private val fakeMovies = getFakeMoviesTest().map {

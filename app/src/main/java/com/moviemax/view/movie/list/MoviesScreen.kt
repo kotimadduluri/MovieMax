@@ -20,7 +20,7 @@ import com.common.ui.components.state.ActionState
 import com.common.ui.components.state.ActionStateView
 import com.common.ui.components.state.ActionStateViewCard
 import com.moviemax.R
-import com.moviemax.view.movie.UiState
+import com.moviemax.view.UiState
 import com.moviemax.viewmodel.movie.MoviesScreenIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,7 +90,7 @@ fun MoviesList(
     VerticalList(
         data = dataElements,
         modifier = modifier.testTag("MoviesList")
-    ) { movie ->
+    ) { _, movie ->
         MovieCard(movie = movie) {
             event(MoviesScreenIntent.ViewDetails(it))
         }
