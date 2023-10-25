@@ -1,0 +1,15 @@
+import("ADB")
+
+desc "Run UI Tests"
+private_lane :ui_test do |options|
+    emulator = options[:emulator] ? options[:emulator] : 'pixel'
+    api =  options[:api] ? options[:api] : '33'
+    test_suite =  options[:test_suite] ? options[:test_suite] : 'Smoke'
+    #test_suite = ENV['TEST_SUITE'].to_s
+    start_emulator(emulator)
+    wait_for_emulator_to_boot
+    task =  @configuration['task_uitest'] + ' -PtestSuite='+test_suite
+    executeGradle(task)
+    close_emulators
+    #executeGradle('cleanOutput')
+end

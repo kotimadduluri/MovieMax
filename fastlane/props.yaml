@@ -1,0 +1,13 @@
+configurations:
+  dev:
+    versionName: 1.0
+    versionCode: 1
+    appId: com.moviemax.dev
+    appName: movieMax Dev
+    task_build: bundleDevRelease
+  prod:
+    versionName: 1.0
+    versionCode: 1
+    appId: com.moviemax
+    appName: movieMax
+    task_build: bundleProdRelease
